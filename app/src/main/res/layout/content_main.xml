@@ -10,10 +10,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.github.fyr.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:background="@drawable/main_page">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Login"
+        android:id="@+id/button"
+        android:layout_marginBottom="172dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/button_material_dark"
+        android:minWidth="400dp"
+        android:minLines="0"
+        android:textColor="@color/abc_primary_text_disable_only_material_dark"
+        android:textSize="25dp" />
+
+    <Button
+        android:backgroundTint="@color/button_material_dark"
+        android:textColor="@color/abc_primary_text_disable_only_material_dark"
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create an Account"
+        android:id="@+id/button2"
+        android:layout_alignTop="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="81dp"
+        android:minWidth="400dp"
+        android:minLines="0" />
 </RelativeLayout>
+
+
