@@ -24,6 +24,7 @@
         android:backgroundTint="@color/button_material_dark"
         android:minWidth="400dp"
         android:minLines="0"
+        android:onClick="toHome"
         android:textColor="@color/abc_primary_text_disable_only_material_dark"
         android:textSize="25dp" />
 
@@ -36,7 +37,6 @@
         android:text="Create an Account"
         android:id="@+id/create_account"
         android:layout_alignTop="@+id/login"
-        android:onClick="toHome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
         android:minWidth="400dp"
