@@ -3,14 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_what_pace">WhatPace</string>
     <string name="title_activity_home_page">HomePage</string>
-    <string name="title_activity_splash">Splash</string>
-    <string name="ten_plus">10+</string>
-    <string name="ten_nine">10-9</string>
-    <string name="nine_eight">9-8</string>
-    <string name="eight_seven">8-7</string>
-    <string name="seven_six">7_6</string>
-    <string name="six_faster">6 and faster</string>
-    <string name="button">Next</string>
     <string name="title_activity_what_surface">WhatSurface</string>
+    <string name="title_activity_what_distance">WhatDistance</string>
+    <string name="title_activity_review_run">ReviewRun</string>
 
 </resources>

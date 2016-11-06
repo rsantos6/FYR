@@ -28,7 +28,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void toPace(View view){
-        Intent intent = new Intent(this, WhatPace.class);
+        Intent intent = new Intent(HomePage.this, WhatPace.class);
         startActivity(intent);
     }
 

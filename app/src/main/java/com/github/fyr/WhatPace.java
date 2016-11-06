@@ -1,7 +1,9 @@
 package com.github.fyr;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View.OnClickListener;
@@ -16,7 +18,7 @@ public class WhatPace extends Activity {
     private DataToday data = new DataToday();
     private RadioGroup radioPaceGroup;
     private RadioButton radioPaceButton;
-    private Button btnDisplay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,17 @@ public class WhatPace extends Activity {
 
     public void setPace(View view) {
         // get selected radio button from radioGroup
-        radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);
-        int selectedId = radioPaceGroup.getCheckedRadioButtonId();
-        radioPaceButton = (RadioButton) findViewById(selectedId);
-        data.setPace(radioPaceButton.getText().toString());
-        TextView v = (TextView) findViewById(R.id.textView3);
-        v.setText(data.getPace().toString());
+        this.radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);
+        int selectedId = this.radioPaceGroup.getCheckedRadioButtonId();
+        this.radioPaceButton = (RadioButton) findViewById(selectedId);
+        this.data.setPace(this.radioPaceButton.getText().toString());
+        Intent intent = new Intent(WhatPace.this, WhatSurface.class).putExtra("obj",this.data);
+        startActivity(intent);
+    }
+
+    public void backToHome(View view){
+        Intent intent = new Intent(WhatPace.this, HomePage.class);
+        startActivity(intent);
     }
 
 }

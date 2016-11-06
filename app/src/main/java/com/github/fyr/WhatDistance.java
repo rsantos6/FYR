@@ -10,16 +10,15 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class WhatSurface extends AppCompatActivity {
-
+public class WhatDistance extends AppCompatActivity {
     private DataToday data;
-    private RadioGroup radioSurfaceGroup;
-    private RadioButton radioSurfaceButton;
+    private RadioGroup radioDistanceGroup;
+    private RadioButton radioDistanceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_what_surface);
+        setContentView(R.layout.activity_what_distance);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
@@ -34,18 +33,18 @@ public class WhatSurface extends AppCompatActivity {
         });
     }
 
-    public void setSurface(View view) {
+    public void toReview(View view) {
         // get selected radio button from radioGroup
-        this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);
-        int selectedId = this.radioSurfaceGroup.getCheckedRadioButtonId();
-        this.radioSurfaceButton = (RadioButton) findViewById(selectedId);
-        this.data.setTerrain(this.radioSurfaceButton.getText().toString());
-        Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj",this.data);
+        this.radioDistanceGroup = (RadioGroup) findViewById(R.id.distanceGroup);
+        int selectedId = this.radioDistanceGroup.getCheckedRadioButtonId();
+        this.radioDistanceButton = (RadioButton) findViewById(selectedId);
+        this.data.setDistance(this.radioDistanceButton.getText().toString());
+        Intent intent = new Intent(WhatDistance.this, ReviewRun.class).putExtra("obj",this.data);
         startActivity(intent);
     }
 
     public void backToHome(View view){
-        Intent intent = new Intent(WhatSurface.this, HomePage.class);
+        Intent intent = new Intent(WhatDistance.this, HomePage.class);
         startActivity(intent);
     }
 

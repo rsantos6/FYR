@@ -29,6 +29,14 @@
         <activity
             android:name=".WhatSurface"
             android:label="@string/title_activity_what_surface"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".WhatDistance"
+            android:label="@string/title_activity_what_distance"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ReviewRun"
+            android:label="@string/title_activity_review_run"
             android:theme="@style/AppTheme"></activity>
     </application>
 
