@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +32,9 @@ public class ProfilePage extends AppCompatActivity {
         editBioAlert.setMessage("250 character limit");
 
         final EditText input = new EditText(this);
+        int maxLength = 250;
+        input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+
         editBioAlert.setView(input);
 
         editBioAlert.setPositiveButton("Submit", new Dialog.OnClickListener() {
