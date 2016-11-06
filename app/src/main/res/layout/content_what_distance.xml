@@ -9,15 +9,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.github.fyr.WhatPace"
-    tools:showIn="@layout/activity_what_pace"
+    tools:context="com.github.fyr.WhatDistance"
+    tools:showIn="@layout/activity_what_distance"
     android:background="@drawable/background_color">
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="How Fast Do You Want To Go?"
+        android:text="How Far Will You Push?"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -47,14 +48,14 @@
         android:id="@+id/button"
         android:layout_marginBottom="38dp"
         android:minWidth="150dp"
-        android:onClick="setPace"
+        android:onClick="toReview"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:textSize="20dp" />
 
 
     <RadioGroup
-        android:id="@+id/paceGroup"
+        android:id="@+id/distanceGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
@@ -64,37 +65,9 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 min/mile or slower"
-            android:id="@+id/ten_plus"
-            android:minWidth="75dp"
-            android:minHeight="25dp"
-            android:layout_above="@+id/ten_nine"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dip"
-            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:text="1-3 miles"
             android:checked="false"
-            android:textSize="25dp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10 - 9 min/mile"
-            android:id="@+id/seven_six"
-            android:minWidth="75dp"
-            android:checked="false"
-            android:minHeight="25dp"
-            android:layout_below="@+id/eight_seven"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dip"
-            android:textColor="@color/abc_primary_text_disable_only_material_dark"
-            android:textSize="25dp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9 - 8 min/mile"
-            android:checked="false"
-            android:id="@+id/eight_seven"
+            android:id="@+id/one_three"
             android:minWidth="75dp"
             android:minHeight="25dp"
             android:layout_centerVertical="true"
@@ -106,12 +79,41 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 - 7 min/mile"
-            android:id="@+id/nine_eight"
+            android:text="3-5 miles"
+            android:id="@+id/three_five"
+            android:minWidth="75dp"
+            android:minHeight="25dp"
+            android:layout_above="@+id/nine_twelve"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dip"
+            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:checked="false"
+            android:textSize="25dp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5-7 miles"
+            android:id="@+id/five_seven"
+            android:minWidth="75dp"
+            android:checked="false"
+            android:minHeight="25dp"
+            android:layout_below="@+id/one_three"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dip"
+            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:textSize="25dp" />
+
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7-9 miles"
+            android:id="@+id/seven_nine"
             android:checked="false"
             android:minWidth="75dp"
             android:minHeight="25dp"
-            android:layout_above="@+id/eight_seven"
+            android:layout_above="@+id/one_three"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dip"
             android:textColor="@color/abc_primary_text_disable_only_material_dark"
@@ -120,12 +122,12 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 - 6 min/mile"
-            android:id="@+id/ten_nine"
+            android:text="9-12 miles"
+            android:id="@+id/nine_twelve"
             android:checked="false"
             android:minWidth="75dp"
             android:minHeight="25dp"
-            android:layout_above="@+id/nine_eight"
+            android:layout_above="@+id/seven_nine"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dip"
             android:textColor="@color/abc_primary_text_disable_only_material_dark"
@@ -134,9 +136,9 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6 min/mile or faster"
-            android:id="@+id/six_faster"
-            android:layout_below="@+id/seven_six"
+            android:text="12 miles and up"
+            android:id="@+id/twelve_up"
+            android:layout_below="@+id/five_seven"
             android:layout_alignParentStart="true"
             android:checked="false"
             android:minWidth="75dp"
@@ -147,7 +149,4 @@
 
 
     </RadioGroup>
-
-
-
 </RelativeLayout>

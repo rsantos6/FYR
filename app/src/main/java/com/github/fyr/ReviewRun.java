@@ -7,22 +7,24 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 
-public class WhatSurface extends AppCompatActivity {
-
+public class ReviewRun extends AppCompatActivity {
     private DataToday data;
-    private RadioGroup radioSurfaceGroup;
-    private RadioButton radioSurfaceButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_what_surface);
+        setContentView(R.layout.activity_review_run);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
+
+        TextView tv1 = (TextView) findViewById(R.id.textView2);
+        tv1.setText("Pace: " + data.getPace());
+        TextView tv2 = (TextView) findViewById(R.id.textView4);
+        tv2.setText("Terrain: " + data.getTerrain());
+        TextView tv3 = (TextView) findViewById(R.id.textView5);
+        tv3.setText("Distance: " + data.getDistance());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,18 +36,8 @@ public class WhatSurface extends AppCompatActivity {
         });
     }
 
-    public void setSurface(View view) {
-        // get selected radio button from radioGroup
-        this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);
-        int selectedId = this.radioSurfaceGroup.getCheckedRadioButtonId();
-        this.radioSurfaceButton = (RadioButton) findViewById(selectedId);
-        this.data.setTerrain(this.radioSurfaceButton.getText().toString());
-        Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj",this.data);
-        startActivity(intent);
-    }
-
-    public void backToHome(View view){
-        Intent intent = new Intent(WhatSurface.this, HomePage.class);
+    public void backToPace(View view){
+        Intent intent = new Intent(ReviewRun.this, WhatPace.class);
         startActivity(intent);
     }
 

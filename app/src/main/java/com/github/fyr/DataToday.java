@@ -1,16 +1,37 @@
 package com.github.fyr;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by RussBuss on 11/5/2016.
  */
-public class DataToday {
+public class DataToday implements Parcelable {
     protected String pace;
     protected String terrain;
-    protected int distance;
+    protected String distance;
 
     protected DataToday(){
 
     }
+
+    protected DataToday(Parcel in) {
+        pace = in.readString();
+        terrain = in.readString();
+        distance = in.readString();
+    }
+
+    public static final Creator<DataToday> CREATOR = new Creator<DataToday>() {
+        @Override
+        public DataToday createFromParcel(Parcel in) {
+            return new DataToday(in);
+        }
+
+        @Override
+        public DataToday[] newArray(int size) {
+            return new DataToday[size];
+        }
+    };
 
     protected void setPace(String newPace){
         this.pace = newPace;
@@ -20,7 +41,7 @@ public class DataToday {
         this.terrain = newTerrain;
     }
 
-    protected void setDistance(int newDistance){
+    protected void setDistance(String newDistance){
         this.distance = newDistance;
     }
 
@@ -32,12 +53,23 @@ public class DataToday {
         return this.terrain;
     }
 
-    protected int getDistance(){
+    protected String getDistance(){
         return this.distance;
     }
 
     protected boolean isEqual(Object o){
-        return (((DataToday) o).getDistance() == this.distance) && (((DataToday) o).getPace().equals(this.pace)) && (((DataToday) o).getTerrain().equals(this.terrain));
+        return (((DataToday) o).getDistance().equals(this.distance)) && (((DataToday) o).getPace().equals(this.pace)) && (((DataToday) o).getTerrain().equals(this.terrain));
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(pace);
+        parcel.writeString(terrain);
+        parcel.writeString(distance);
+    }
 }
