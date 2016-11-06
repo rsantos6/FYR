@@ -30,6 +30,10 @@
             android:name=".WhatSurface"
             android:label="@string/title_activity_what_surface"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ProfilePage"
+            android:label="ProfilePage"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
