@@ -11,5 +11,6 @@
     <string name="seven_six">7_6</string>
     <string name="six_faster">6 and faster</string>
     <string name="button">Next</string>
+    <string name="title_activity_what_surface">WhatSurface</string>
 
 </resources>
