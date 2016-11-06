@@ -9,15 +9,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.github.fyr.MainActivity"
-    tools:showIn="@layout/activity_main"
+    tools:context="com.github.fyr.HomePage"
+    tools:showIn="@layout/activity_home_page"
     android:background="@drawable/main_page">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/login"
+        android:text="View My Profile"
+        android:id="@+id/profile"
         android:layout_marginBottom="172dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -33,14 +33,13 @@
         android:textSize="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create an Account"
-        android:id="@+id/create_account"
-        android:layout_alignTop="@+id/login"
-        android:onClick="toHome"
+        android:text="Find a Run"
+        android:id="@+id/find_run"
+        android:onClick="toPace"
+        android:layout_alignTop="@+id/profile"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
         android:minWidth="400dp"
         android:minLines="0" />
+
 </RelativeLayout>
-
-
