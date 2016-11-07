@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.github.fyr.AboutPage"
+    android:textAlignment="center"
+    android:background="@drawable/background_color">
+
+    <TextView
+        android:text="About FYR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:id="@+id/textView7"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+    <TextView
+        android:text="Find Your Run is an app created by runners, for runners. FYR makes it easy to find others to run with, and also discover new places to run. With just a few taps it's easy to find new people of similar ability level to run with."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:id="@+id/textView10"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+    <TextView
+        android:text="Created by Alec Rodgers, Russell Santos, and Brad Payne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:id="@+id/textView8"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView10"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+</RelativeLayout>

@@ -37,11 +37,12 @@
         <activity
             android:name=".ReviewRun"
             android:label="@string/title_activity_review_run"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ProfilePage"
             android:label="ProfilePage"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AboutPage"></activity>
     </application>
 
 </manifest>
