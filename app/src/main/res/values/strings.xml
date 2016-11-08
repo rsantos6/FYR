@@ -8,5 +8,13 @@
     <string name="title_activity_review_run">ReviewRun</string>
     <string name="title_activity_email_password">EmailPasswordActivity</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="drop_down">drop_down</string>
+    <string-array name="spinner_list_item_array">
+        <item>Profile</item>
+        <item>Home</item>
+        <item>Matches</item>
+        <item>About</item>
+        <item>LogOut</item>
+    </string-array>
 
 </resources>

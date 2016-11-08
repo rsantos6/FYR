@@ -7,7 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -21,7 +21,7 @@
         <activity
             android:name=".WhatPace"
             android:label="@string/title_activity_what_pace"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
@@ -43,10 +43,7 @@
             android:label="ProfilePage"
             android:theme="@style/AppTheme" />
         <activity android:name=".AboutPage" />
-        <activity
-            android:name=".EmailPasswordActivity"
-            android:label="@string/title_activity_email_password"
-            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

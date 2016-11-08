@@ -7,9 +7,12 @@ import android.os.Parcelable;
  * Created by RussBuss on 11/5/2016.
  */
 public class DataToday implements Parcelable {
-    protected String pace;
-    protected String terrain;
-    protected String distance;
+    protected String pace;//this String will only be used for the review page
+    protected String terrain;//this String will only be used for the review page
+    protected String distance;//this String will only be used for the review page
+    protected String paceForMatch;
+    protected String terrainForMatch;
+    protected String distanceForMatch;
 
     protected DataToday(){
 
