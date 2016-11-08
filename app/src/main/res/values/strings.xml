@@ -6,5 +6,7 @@
     <string name="title_activity_what_surface">WhatSurface</string>
     <string name="title_activity_what_distance">WhatDistance</string>
     <string name="title_activity_review_run">ReviewRun</string>
+    <string name="title_activity_email_password">EmailPasswordActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
 
 </resources>

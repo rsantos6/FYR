@@ -22,6 +22,7 @@ public class HomePage extends AppCompatActivity {
     public void toPace(View view){
         Intent intent = new Intent(HomePage.this, WhatPace.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     public void toProfilePage(View view) {

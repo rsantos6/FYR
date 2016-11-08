@@ -39,6 +39,7 @@ public class ReviewRun extends AppCompatActivity {
     public void backToPace(View view){
         Intent intent = new Intent(ReviewRun.this, WhatPace.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back);
     }
 
 }

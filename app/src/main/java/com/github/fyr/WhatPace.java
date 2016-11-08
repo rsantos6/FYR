@@ -49,11 +49,13 @@ public class WhatPace extends Activity {
         this.data.setPace(this.radioPaceButton.getText().toString());
         Intent intent = new Intent(WhatPace.this, WhatSurface.class).putExtra("obj",this.data);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     public void backToHome(View view){
         Intent intent = new Intent(WhatPace.this, HomePage.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back);
     }
 
 }

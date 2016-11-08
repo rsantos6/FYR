@@ -34,19 +34,30 @@ public class WhatSurface extends AppCompatActivity {
         });
     }
 
-    public void setSurface(View view) {
+    public void setSurface() {
         // get selected radio button from radioGroup
-        this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);
         int selectedId = this.radioSurfaceGroup.getCheckedRadioButtonId();
         this.radioSurfaceButton = (RadioButton) findViewById(selectedId);
         this.data.setTerrain(this.radioSurfaceButton.getText().toString());
-        Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj",this.data);
-        startActivity(intent);
     }
 
-    public void backToHome(View view){
-        Intent intent = new Intent(WhatSurface.this, HomePage.class);
+    public void backToPace(View view){
+        this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);//get radio group which contains all the radio buttons
+        if (this.radioSurfaceGroup.getCheckedRadioButtonId() != -1){//if a radio button within the radio group is clicked
+            this.setSurface();//set the surface field in the data object
+        }//if no radio button is clicked don't try to set the surface field because there's nothing to set
+        Intent intent = new Intent(WhatSurface.this, WhatPace.class).putExtra("obj", this.data);//create intent with data object
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back);//transition to go back to pace page
+
+    }
+
+    public void toTerrain(View view){
+        this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);
+        this.setSurface();
+        Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj",this.data);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
 }

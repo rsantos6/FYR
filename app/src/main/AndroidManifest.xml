@@ -42,7 +42,11 @@
             android:name=".ProfilePage"
             android:label="ProfilePage"
             android:theme="@style/AppTheme" />
-        <activity android:name=".AboutPage"></activity>
+        <activity android:name=".AboutPage" />
+        <activity
+            android:name=".EmailPasswordActivity"
+            android:label="@string/title_activity_email_password"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
