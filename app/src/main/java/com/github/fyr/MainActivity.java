@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
     public void toHome(View view){
         Intent intent = new Intent(MainActivity.this, HomePage.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
 }

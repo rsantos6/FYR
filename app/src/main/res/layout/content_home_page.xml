@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Find a Run"
         android:id="@+id/find_run"
-        android:onClick="toPace (HomePage)"
+        android:onClick="toPace"
         android:layout_alignTop="@+id/profile"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
