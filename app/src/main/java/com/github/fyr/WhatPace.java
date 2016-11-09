@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -35,6 +36,44 @@ public class WhatPace extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_what_pace);
+
+        Spinner Spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                if (i==1){
+                    intent = new Intent(WhatPace.this, ProfilePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+                if (i==2){
+                   intent = new Intent(WhatPace.this, HomePage.class);
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }
+               /*if (i==3){
+                   intent = new Intent(WhatPace.this, MatchPage.class);//This will be the MatchesPage
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }*/
+                if (i==4){
+                    intent = new Intent(WhatPace.this, AboutPage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+              /* if (i==5) {
+                   intent = new Intent(WhatPace.this, LogOut.class);//This will log the user out
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(WhatPace.this, "NothingSelected", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

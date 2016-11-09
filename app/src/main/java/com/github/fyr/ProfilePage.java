@@ -11,9 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -23,6 +26,43 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+        Spinner Spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                /*if (i==1){
+                    intent = new Intent(ProfilePage.this, ProfilePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }*/
+                if (i==2){
+                   intent = new Intent(ProfilePage.this, HomePage.class);
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }
+               /*if (i==3){
+                   intent = new Intent(ProfilePage.this, MatchPage.class);//This will be the MatchesPage
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }*/
+                if (i==4){
+                    intent = new Intent(ProfilePage.this, AboutPage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+              /* if (i==5) {
+                   intent = new Intent(ProfilePage.this, LogOut.class);//This will log the user out
+                   startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+               }*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(ProfilePage.this, "NothingSelected", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void editBio(View view) {

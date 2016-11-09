@@ -146,9 +146,14 @@
             android:layout_marginTop="10dip"
             android:textColor="@color/abc_primary_text_disable_only_material_dark"
             android:textSize="25dp" />
-
-
     </RadioGroup>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_list_item_array"
+        />
 
 
 

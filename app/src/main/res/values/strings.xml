@@ -9,7 +9,9 @@
     <string name="title_activity_email_password">EmailPasswordActivity</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="drop_down">drop_down</string>
+    <string name="title">Menu</string>
     <string-array name="spinner_list_item_array">
+        <item></item>
         <item>Profile</item>
         <item>Home</item>
         <item>Matches</item>

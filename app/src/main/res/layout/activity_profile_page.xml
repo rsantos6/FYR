@@ -12,6 +12,13 @@
     tools:context="com.github.fyr.ProfilePage"
     android:background="@drawable/background_color">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_list_item_array"
+        />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

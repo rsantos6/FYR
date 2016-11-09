@@ -12,6 +12,13 @@
     android:textAlignment="center"
     android:background="@drawable/background_color">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_list_item_array"
+        />
+
     <TextView
         android:text="About FYR"
         android:layout_width="wrap_content"
