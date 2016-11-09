@@ -90,10 +90,14 @@ public class WhatSurface extends AppCompatActivity {
 
     public void toTerrain(View view){
         this.radioSurfaceGroup = (RadioGroup) findViewById(R.id.surfaceGroup);
-        this.setSurface();
-        Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj",this.data);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        if (this.radioSurfaceGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(WhatSurface.this, "Please Select a Terrain", Toast.LENGTH_SHORT).show();
+        } else {
+            this.setSurface();
+            Intent intent = new Intent(WhatSurface.this, WhatDistance.class).putExtra("obj", this.data);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        }
     }
 
 }

@@ -78,19 +78,19 @@ public class WhatPace extends AppCompatActivity {
 
     }
 
-
-
-
-
     public void setPace(View view) {
         // get selected radio button from radioGroup
         this.radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);
-        int selectedId = this.radioPaceGroup.getCheckedRadioButtonId();
-        this.radioPaceButton = (RadioButton) findViewById(selectedId);
-        this.data.setPace(this.radioPaceButton.getText().toString());
-        Intent intent = new Intent(WhatPace.this, WhatSurface.class).putExtra("obj",this.data);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        if (this.radioPaceGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(WhatPace.this, "Please Select a Pace", Toast.LENGTH_SHORT).show();
+        } else {
+            int selectedId = this.radioPaceGroup.getCheckedRadioButtonId();
+            this.radioPaceButton = (RadioButton) findViewById(selectedId);
+            this.data.setPace(this.radioPaceButton.getText().toString());
+            Intent intent = new Intent(WhatPace.this, WhatSurface.class).putExtra("obj", this.data);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        }
     }
 
     public void backToHome(View view){

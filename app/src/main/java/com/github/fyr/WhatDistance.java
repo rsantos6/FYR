@@ -88,10 +88,14 @@ public class WhatDistance extends AppCompatActivity {
 
     public void toReview(View view){
         this.radioDistanceGroup = (RadioGroup) findViewById(R.id.distanceGroup);
-        this.setDistance();
-        Intent intent = new Intent(WhatDistance.this, ReviewRun.class).putExtra("obj",this.data);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        if (this.radioDistanceGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(WhatDistance.this, "Please Select a Distance", Toast.LENGTH_SHORT).show();
+        } else {
+            this.setDistance();
+            Intent intent = new Intent(WhatDistance.this, ReviewRun.class).putExtra("obj", this.data);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        }
     }
 
 }
