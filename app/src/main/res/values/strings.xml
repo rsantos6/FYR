@@ -18,5 +18,6 @@
         <item>About</item>
         <item>LogOut</item>
     </string-array>
+    <string name="title_activity_register_user">RegisterUser</string>
 
 </resources>

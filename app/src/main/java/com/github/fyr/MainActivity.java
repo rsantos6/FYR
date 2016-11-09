@@ -30,4 +30,10 @@ public class MainActivity extends Activity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
+    public void toRegister(View view){
+        Intent intent = new Intent(MainActivity.this, RegisterUser.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+    }
+
 }

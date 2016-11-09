@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1022473722584",
-    "firebase_url": "https://the-fyr-68cc0.firebaseio.com",
-    "project_id": "the-fyr-68cc0",
-    "storage_bucket": "the-fyr-68cc0.appspot.com"
+    "project_number": "14541115275",
+    "firebase_url": "https://new-fyr.firebaseio.com",
+    "project_id": "new-fyr",
+    "storage_bucket": "new-fyr.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1022473722584:android:95778db65afcc7d3",
+        "mobilesdk_app_id": "1:14541115275:android:1ffab88401940877",
         "android_client_info": {
           "package_name": "com.github.fyr"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1022473722584-58futtuunacee3nvfg6m7uto10c43a8u.apps.googleusercontent.com",
+          "client_id": "14541115275-bqf1gubsrolpk7i7oq3v74uq2vafi0fn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlSVFe_wC4z1-fDEFc73H_f3pj1lcUwm4"
+          "current_key": "AIzaSyCzq1PjPqGK8KAGiFTQd8EjJB4A9N58Ol4"
         }
       ],
       "services": {

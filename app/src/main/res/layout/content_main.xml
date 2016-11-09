@@ -39,6 +39,7 @@
         android:layout_alignTop="@+id/login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="81dp"
+        android:onClick="toRegister"
         android:minWidth="400dp"
         android:minLines="0" />
 </RelativeLayout>
