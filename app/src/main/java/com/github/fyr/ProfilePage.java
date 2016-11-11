@@ -18,24 +18,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.IOException;
 
 public class ProfilePage extends AppCompatActivity {
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent;
-                /*if (i==1){
-                    intent = new Intent(ProfilePage.this, ProfilePage.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-                }*/
+                if (i==1){
+                    Toast.makeText(ProfilePage.this, "Already on Profile page", Toast.LENGTH_SHORT).show();//if clicks home page and on home
+                }
                 if (i==2){
                    intent = new Intent(ProfilePage.this, HomePage.class);
                    startActivity(intent);
@@ -51,11 +53,12 @@ public class ProfilePage extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
-              /* if (i==5) {
-                   intent = new Intent(ProfilePage.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(ProfilePage.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

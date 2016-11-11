@@ -14,16 +14,20 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class WhatDistance extends AppCompatActivity {
     private DataToday data;
     private RadioGroup radioDistanceGroup;
     private RadioButton radioDistanceButton;
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_what_distance);
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
@@ -53,11 +57,12 @@ public class WhatDistance extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
-              /* if (i==5) {
-                   intent = new Intent(WhatDistance.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(WhatDistance.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

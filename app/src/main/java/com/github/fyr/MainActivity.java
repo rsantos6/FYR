@@ -24,10 +24,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void toHome(View view){
-        Intent intent = new Intent(MainActivity.this, HomePage.class);
+    public void toLogin(View view){
+        Intent intent = new Intent(MainActivity.this, LoginUser.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
     }
 
     public void toRegister(View view){

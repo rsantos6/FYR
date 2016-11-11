@@ -14,17 +14,21 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class WhatSurface extends AppCompatActivity {
 
     private DataToday data;
     private RadioGroup radioSurfaceGroup;
     private RadioButton radioSurfaceButton;
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_what_surface);
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
@@ -54,11 +58,12 @@ public class WhatSurface extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
-              /* if (i==5) {
-                   intent = new Intent(WhatSurface.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(WhatSurface.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

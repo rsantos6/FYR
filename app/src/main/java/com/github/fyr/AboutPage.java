@@ -8,12 +8,16 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class AboutPage extends AppCompatActivity {
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_page);
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -34,16 +38,15 @@ public class AboutPage extends AppCompatActivity {
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }*/
-                /*if (i==4){
-                    intent = new Intent(AboutPage.this, AboutPage.class);
-                    startActivity(intent);
+                if (i==4){
+                    Toast.makeText(AboutPage.this, "Already on About page", Toast.LENGTH_SHORT).show();//if clicks home page and on home
+                }
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(AboutPage.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-                }*/
-              /* if (i==5) {
-                   intent = new Intent(HomePage.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
-                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

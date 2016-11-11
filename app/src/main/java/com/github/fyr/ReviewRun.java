@@ -13,13 +13,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ReviewRun extends AppCompatActivity {
     private DataToday data;
+    public FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_review_run);
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
@@ -56,11 +60,12 @@ public class ReviewRun extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
-              /* if (i==5) {
-                   intent = new Intent(Review.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(ReviewRun.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

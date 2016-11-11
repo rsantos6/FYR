@@ -24,11 +24,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class WhatPace extends AppCompatActivity {
 
     private DataToday data = new DataToday();
     private RadioGroup radioPaceGroup;
     private RadioButton radioPaceButton;
+    public FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -36,7 +39,7 @@ public class WhatPace extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_what_pace);
-
+        this.firebaseAuth = FirebaseAuth.getInstance();
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -62,11 +65,12 @@ public class WhatPace extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
-              /* if (i==5) {
-                   intent = new Intent(WhatPace.this, LogOut.class);//This will log the user out
-                   startActivity(intent);
+                if (i==5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(WhatPace.this, MainActivity.class));
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+                }
             }
 
             @Override

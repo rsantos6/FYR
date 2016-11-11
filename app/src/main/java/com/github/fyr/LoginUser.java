@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,41 +20,38 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
-    protected Button buttonRegister;
-    protected EditText editTextEmail;
-    protected EditText editTextPassword;
-    protected TextView textViewSignin;
-    protected ProgressDialog progressDialog;
-    protected FirebaseAuth firebaseAuth;
+public class LoginUser extends AppCompatActivity implements View.OnClickListener{
 
 
+    private Button buttonSignIn;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private TextView textViewSignup;
+    public ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_user);
-
+        setContentView(R.layout.activity_login_user);
         this.firebaseAuth = FirebaseAuth.getInstance();
+
         if(firebaseAuth.getCurrentUser() != null){
             finish();
             startActivity(new Intent(getApplicationContext(), HomePage.class));
         }
-
-        this.progressDialog = new ProgressDialog(this);
-
-        this.buttonRegister = (Button) findViewById(R.id.buttonRegister);
-
         this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        this.buttonSignIn = (Button) findViewById(R.id.buttonSignin);
+        this.progressDialog = new ProgressDialog(this);
+        this.textViewSignup = (TextView) findViewById(R.id.textViewSignup);
 
-        this.textViewSignin = (TextView) findViewById(R.id.textViewSignin);
+        this.buttonSignIn.setOnClickListener(this);
+        this.textViewSignup.setOnClickListener(this);
 
-        this.buttonRegister.setOnClickListener(this);
-        this.textViewSignin.setOnClickListener(this);
     }
 
-    public void registerUser(){
+    public void userLogin(){
         String email = this.editTextEmail.getText().toString().trim();
         String password = this.editTextPassword.getText().toString().trim();
         if (TextUtils.isEmpty(email)){
@@ -68,22 +64,18 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
             return;//stop from further execution
         }
-        this.progressDialog.setMessage("Registering User...");
-        progressDialog.show();
-        this.firebaseAuth.createUserWithEmailAndPassword(email, password)
+        this.progressDialog.setMessage("Signing In...");
+        this.progressDialog.show();
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            //user successful registered
-                            progressDialog.hide();
-                            Toast.makeText(RegisterUser.this, "Successfully registered!", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(getApplicationContext(), HomePage.class));
                             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                        }else{
-                            progressDialog.hide();
-                            Toast.makeText(RegisterUser.this, "Failed to register. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -91,12 +83,12 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == this.buttonRegister){
-            this.registerUser();
+        if(view == this.buttonSignIn){
+            userLogin();
         }
-
-        if (view == this.textViewSignin){
-            startActivity(new Intent(this, LoginUser.class));
+        if(view == this.textViewSignup){
+            finish();
+            startActivity(new Intent(this, RegisterUser.class));
             overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
         }
     }

@@ -19,5 +19,6 @@
         <item>LogOut</item>
     </string-array>
     <string name="title_activity_register_user">RegisterUser</string>
+    <string name="title_activity_login_user">LoginUser</string>
 
 </resources>
