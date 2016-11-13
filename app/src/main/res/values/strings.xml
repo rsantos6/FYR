@@ -20,5 +20,7 @@
     </string-array>
     <string name="title_activity_register_user">RegisterUser</string>
     <string name="title_activity_login_user">LoginUser</string>
+    <string name="title_activity_make_profile">MakeProfile</string>
+    <string name="title_activity_profile_pace">ProfilePace</string>
 
 </resources>

@@ -79,7 +79,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                             progressDialog.hide();
                             Toast.makeText(RegisterUser.this, "Successfully registered!", Toast.LENGTH_SHORT).show();
                             finish();
-                            startActivity(new Intent(getApplicationContext(), HomePage.class));
+                            startActivity(new Intent(getApplicationContext(), ProfilePace.class));
                             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                         }else{
                             progressDialog.hide();

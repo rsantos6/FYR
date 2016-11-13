@@ -53,6 +53,10 @@
         <activity
             android:name=".LoginUser"
             android:label="@string/title_activity_login_user"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".ProfilePace"
+            android:label="@string/title_activity_profile_pace"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 
