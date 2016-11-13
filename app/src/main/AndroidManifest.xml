@@ -57,6 +57,10 @@
         <activity
             android:name=".ProfilePace"
             android:label="@string/title_activity_profile_pace"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".ProfileTerrain"
+            android:label="@string/title_activity_profile_terrain"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 

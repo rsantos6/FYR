@@ -18,9 +18,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ProfilePace extends AppCompatActivity implements View.OnClickListener{
-    public RadioGroup radioPaceGroup;
-    public RadioButton radioPaceButton;
+public class ProfileTerrain extends AppCompatActivity implements View.OnClickListener{
+
+    public RadioGroup radioTerrainGroup;
+    public RadioButton radioTerrainButton;
     public FirebaseAuth firebaseAuth;
     public TextView textViewWelcome;
     public DatabaseReference databaseReference;
@@ -31,14 +32,13 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_pace);
+        setContentView(R.layout.activity_profile_terrain);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.data = new UserProfile();
+        this.data = getIntent().getExtras().getParcelable("obj");
         this.firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         this.textViewWelcome = (TextView) findViewById(R.id.textView);
-        this.textViewWelcome.setText("Welcome " + user.getEmail() + "! Select your usual pace:");
+        this.textViewWelcome.setText("Please select your prefered terrain:");
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         this.buttonSave = (Button) findViewById(R.id.button);
         buttonSave.setOnClickListener(this);
@@ -47,22 +47,22 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    public void setPace() {
+    public void setTerrain() {
         // get selected radio button from radioGroup
-        this.radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);
-        if (this.radioPaceGroup.getCheckedRadioButtonId() == -1){
-            Toast.makeText(ProfilePace.this, "Please Select a Pace", Toast.LENGTH_SHORT).show();
+        this.radioTerrainGroup = (RadioGroup) findViewById(R.id.terrainGroup);
+        if (this.radioTerrainGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(ProfileTerrain.this, "Please Select a Terrain", Toast.LENGTH_SHORT).show();
         } else {
-            int selectedId = this.radioPaceGroup.getCheckedRadioButtonId();
-            this.radioPaceButton = (RadioButton) findViewById(selectedId);
-            String x = this.radioPaceButton.getText().toString();
-            this.data.setPace(x);
+            int selectedId = this.radioTerrainGroup.getCheckedRadioButtonId();
+            this.radioTerrainButton = (RadioButton) findViewById(selectedId);
+            String x = this.radioTerrainButton.getText().toString();
+            this.data.setTerrain(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
             this.databaseReference.child(user.getUid()).setValue(this.data);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(ProfilePace.this, ProfileTerrain.class).putExtra("obj", data);
+           /* Intent intent = new Intent(ProfilePace.this, WhatSurface.class).putExtra("obj", data);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);*/
         }
 
     }
@@ -70,9 +70,10 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view==buttonSave){
-            this.setPace();
+            this.setTerrain();
         }
     }
 
 }
+
 
