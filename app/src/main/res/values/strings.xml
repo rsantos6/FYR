@@ -23,5 +23,6 @@
     <string name="title_activity_make_profile">MakeProfile</string>
     <string name="title_activity_profile_pace">ProfilePace</string>
     <string name="title_activity_profile_terrain">ProfileTerrain</string>
+    <string name="title_activity_profile_distance">ProfileDistance</string>
 
 </resources>

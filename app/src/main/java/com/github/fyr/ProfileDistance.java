@@ -18,27 +18,26 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ProfileTerrain extends AppCompatActivity implements View.OnClickListener{
+public class ProfileDistance extends AppCompatActivity implements View.OnClickListener{
 
-    public RadioGroup radioTerrainGroup;
-    public RadioButton radioTerrainButton;
+    public RadioGroup radioDistanceGroup;
+    public RadioButton radioDistanceButton;
     public FirebaseAuth firebaseAuth;
     public TextView textViewWelcome;
     public DatabaseReference databaseReference;
     public Button buttonSave;
     public UserProfile data;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_terrain);
+        setContentView(R.layout.activity_profile_distance);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.textViewWelcome = (TextView) findViewById(R.id.textView);
-        this.textViewWelcome.setText("Please select your prefered terrain:");
+        this.textViewWelcome.setText("Please select your prefered distance:");
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         this.buttonSave = (Button) findViewById(R.id.button);
         buttonSave.setOnClickListener(this);
@@ -49,20 +48,20 @@ public class ProfileTerrain extends AppCompatActivity implements View.OnClickLis
 
     public void setTerrain() {
         // get selected radio button from radioGroup
-        this.radioTerrainGroup = (RadioGroup) findViewById(R.id.terrainGroup);
-        if (this.radioTerrainGroup.getCheckedRadioButtonId() == -1){
-            Toast.makeText(ProfileTerrain.this, "Please Select a Terrain", Toast.LENGTH_SHORT).show();
+        this.radioDistanceGroup = (RadioGroup) findViewById(R.id.distanceGroup);
+        if (this.radioDistanceGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(ProfileDistance.this, "Please Select a Distance", Toast.LENGTH_SHORT).show();
         } else {
-            int selectedId = this.radioTerrainGroup.getCheckedRadioButtonId();
-            this.radioTerrainButton = (RadioButton) findViewById(selectedId);
-            String x = this.radioTerrainButton.getText().toString();
-            this.data.setTerrain(x);
+            int selectedId = this.radioDistanceGroup.getCheckedRadioButtonId();
+            this.radioDistanceButton = (RadioButton) findViewById(selectedId);
+            String x = this.radioDistanceButton.getText().toString();
+            this.data.setDistance(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
             this.databaseReference.child(user.getUid()).setValue(this.data);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(ProfileTerrain.this, ProfileDistance.class).putExtra("obj", data);
+           /* Intent intent = new Intent(ProfilePace.this, WhatSurface.class).putExtra("obj", data);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);*/
         }
 
     }
@@ -75,5 +74,6 @@ public class ProfileTerrain extends AppCompatActivity implements View.OnClickLis
     }
 
 }
+
 
 
