@@ -49,7 +49,6 @@
             android:onClick="editProfilePicture" />
 
         <TextView
-            android:text="John Smith"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/nameText"
@@ -97,7 +96,6 @@
         </LinearLayout>
 
         <TextView
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mollis efficitur dignissim. Integer eget dui in diam accumsan pharetra. Morbi at molestie sapien. Praesent gravida ut velit eget facilisis. Phasellus iaculis, dui at mollis tempor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bioText"
@@ -122,26 +120,23 @@
             android:layout_height="5dp" />
 
         <TextView
-            android:text="Runs: 4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/totalRunsText"
+            android:id="@+id/usualDistance"
             android:textSize="18sp"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="Total Distance: 10 miles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/totalDistanceText"
+            android:id="@+id/preferedTerrain"
             android:textSize="18sp"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="Longest Run: 5 miles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/longestRunText"
+            android:id="@+id/usualPace"
             android:textSize="18sp"
             android:textColor="@android:color/background_light" />
     </LinearLayout>

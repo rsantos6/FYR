@@ -19,17 +19,94 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
 public class ProfilePage extends AppCompatActivity {
+    public TextView totalRunsText;
     public FirebaseAuth firebaseAuth;
-
+    public FirebaseDatabase database;
+    public DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         this.firebaseAuth = FirebaseAuth.getInstance();
+        this.database = FirebaseDatabase.getInstance();
+        this.databaseReference = this.database.getReference();
+        FirebaseUser user = this.firebaseAuth.getCurrentUser();
+        String userUid = user.getUid();
+        this.databaseReference.child(userUid+"/distance").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String distance = (String) dataSnapshot.getValue();
+                totalRunsText = (TextView) findViewById(R.id.usualDistance);
+                totalRunsText.setText("Usual Distance: "+distance);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        this.databaseReference.child(userUid+"/terrain").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String terrain = (String) dataSnapshot.getValue();
+                totalRunsText = (TextView) findViewById(R.id.preferedTerrain);
+                totalRunsText.setText("Prefered Terrain: "+terrain);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        this.databaseReference.child(userUid+"/pace").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String pace = (String) dataSnapshot.getValue();
+                totalRunsText = (TextView) findViewById(R.id.usualPace);
+                totalRunsText.setText("Usual Pace: "+pace);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        this.databaseReference.child(userUid+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String pace = (String) dataSnapshot.getValue();
+                totalRunsText = (TextView) findViewById(R.id.nameText);
+                totalRunsText.setText(pace);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        this.databaseReference.child(userUid+"/bio").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String bio = (String) dataSnapshot.getValue();
+                totalRunsText = (TextView) findViewById(R.id.bioText);
+                totalRunsText.setText(bio);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

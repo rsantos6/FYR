@@ -59,9 +59,9 @@ public class ProfileDistance extends AppCompatActivity implements View.OnClickLi
             FirebaseUser user = firebaseAuth.getCurrentUser();
             this.databaseReference.child(user.getUid()).setValue(this.data);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
-           /* Intent intent = new Intent(ProfilePace.this, WhatSurface.class).putExtra("obj", data);
+            Intent intent = new Intent(ProfileDistance.this, HomePage.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);*/
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         }
 
     }

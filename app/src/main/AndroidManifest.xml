@@ -65,6 +65,10 @@
         <activity
             android:name=".ProfileDistance"
             android:label="@string/title_activity_profile_distance"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".ProfileName"
+            android:label="@string/title_activity_profile_name"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 

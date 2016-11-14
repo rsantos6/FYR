@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfilePace extends AppCompatActivity implements View.OnClickListener{
     public RadioGroup radioPaceGroup;
@@ -26,6 +29,7 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
     public DatabaseReference databaseReference;
     public Button buttonSave;
     public UserProfile data;
+    public FirebaseDatabase database;
 
 
     @Override
@@ -34,11 +38,25 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_profile_pace);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.data = new UserProfile();
+        this.data = getIntent().getExtras().getParcelable("obj");
         this.firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        this.textViewWelcome = (TextView) findViewById(R.id.textView);
-        this.textViewWelcome.setText("Welcome " + user.getEmail() + "! Select your usual pace:");
+        this.database = FirebaseDatabase.getInstance();
+        this.databaseReference = this.database.getReference();
+        String userUid = user.getUid();
+        this.databaseReference.child(userUid+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = (String) dataSnapshot.getValue();
+                textViewWelcome = (TextView) findViewById(R.id.textView);
+                textViewWelcome.setText("Welcome " + name + "! Select your usual pace:");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
         this.buttonSave = (Button) findViewById(R.id.button);
         buttonSave.setOnClickListener(this);

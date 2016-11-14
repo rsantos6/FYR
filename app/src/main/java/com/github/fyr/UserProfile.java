@@ -10,9 +10,8 @@ public class UserProfile implements Parcelable {
     public String pace;//this String will only be used for the review page
     public String terrain;//this String will only be used for the review page
     public String distance;//this String will only be used for the review page
-    public String paceForMatch;
-    public String terrainForMatch;
-    public String distanceForMatch;
+    public String name;
+    public String bio;
 
     public UserProfile(){
 
@@ -22,6 +21,8 @@ public class UserProfile implements Parcelable {
         pace = in.readString();
         terrain = in.readString();
         distance = in.readString();
+        name = in.readString();
+        bio = in.readString();
     }
 
     public static final Creator<UserProfile> CREATOR = new Creator<UserProfile>() {
@@ -37,6 +38,14 @@ public class UserProfile implements Parcelable {
 
     public void setPace(String newPace){
         this.pace = newPace;
+    }
+
+    public void setName(String newName){
+        this.name = newName;
+    }
+
+    public void setBio(String newBio){
+        this.bio = newBio;
     }
 
     public void setTerrain(String newTerrain){
@@ -59,6 +68,14 @@ public class UserProfile implements Parcelable {
         return this.distance;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
+    public String getBio(){
+        return this.bio;
+    }
+
     public boolean isEqual(Object o){
         return (((UserProfile) o).getDistance().equals(this.distance)) && (((UserProfile) o).getPace().equals(this.pace)) && (((UserProfile) o).getTerrain().equals(this.terrain));
     }
@@ -73,6 +90,8 @@ public class UserProfile implements Parcelable {
         parcel.writeString(pace);
         parcel.writeString(terrain);
         parcel.writeString(distance);
+        parcel.writeString(name);
+        parcel.writeString(bio);
     }
 }
 
