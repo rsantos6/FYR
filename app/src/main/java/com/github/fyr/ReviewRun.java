@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ReviewRun extends AppCompatActivity {
     private DataToday data;
     public FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
