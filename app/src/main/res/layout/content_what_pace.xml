@@ -14,19 +14,6 @@
     android:background="@drawable/background_color">
 
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="How Fast Do You Want To Go?"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/background_material_light"
-        android:textSize="45dp" />
-
-
     <Button
         android:backgroundTint="@color/button_material_dark"
         android:textColor="@color/abc_primary_text_disable_only_material_dark"
@@ -61,12 +48,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:orientation="vertical"
-        android:layout_marginTop="30dip">
+        android:layout_marginTop="20dip">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 min/mile or slower"
+            android:text="10+ minutes"
             android:id="@+id/ten_plus"
             android:minWidth="75dp"
             android:minHeight="25dp"
@@ -80,7 +67,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 - 9 min/mile"
+            android:text="9 - 10 minutes"
             android:id="@+id/seven_six"
             android:minWidth="75dp"
             android:checked="false"
@@ -94,7 +81,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9 - 8 min/mile"
+            android:text="8 - 9 minutes"
             android:checked="false"
             android:id="@+id/eight_seven"
             android:minWidth="75dp"
@@ -108,7 +95,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 - 7 min/mile"
+            android:text="7 - 8 minutes"
             android:id="@+id/nine_eight"
             android:checked="false"
             android:minWidth="75dp"
@@ -122,7 +109,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 - 6 min/mile"
+            android:text="6 - 7 minutes"
             android:id="@+id/ten_nine"
             android:checked="false"
             android:minWidth="75dp"
@@ -136,7 +123,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6 min/mile or faster"
+            android:text="6 minutes / faster"
             android:id="@+id/six_faster"
             android:layout_below="@+id/seven_six"
             android:layout_alignParentStart="true"
@@ -155,6 +142,25 @@
         android:entries="@array/spinner_list_item_array"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="How Fast Do You Want To Go?"
+        android:id="@+id/textView11"
+        android:textColor="@color/background_material_light"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentStart="true"
+        android:textSize="40dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paces measured in minutes per mile"
+        android:id="@+id/textView"
+        android:layout_below="@+id/textView11"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

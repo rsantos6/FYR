@@ -14,18 +14,6 @@
     android:background="@drawable/background_color">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="What Terrain Will You Tackle Today?"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/background_material_light"
-        android:textSize="45dp" />
-
-
     <Button
         android:backgroundTint="@color/button_material_dark"
         android:textColor="@color/abc_primary_text_disable_only_material_dark"
@@ -148,6 +136,17 @@
         android:entries="@array/spinner_list_item_array"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="What Terrain Will You Tackle Today?"
+        android:id="@+id/textView"
+        android:textColor="@color/background_material_light"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentStart="true"
+        android:textSize="40dp"
+        android:textAlignment="center" />
 
 
 </RelativeLayout>

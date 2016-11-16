@@ -140,7 +140,7 @@ public class ProfilePage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(ProfilePage.this, "NothingSelected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfilePage.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
             }
         });
     }

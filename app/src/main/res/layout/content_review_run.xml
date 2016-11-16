@@ -14,34 +14,23 @@
     android:background="@drawable/background_color">
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Is This Correct?"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/background_material_light"
-        android:textSize="50dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Pace:"
         android:id="@+id/textView2"
         android:layout_marginTop="43dp"
         android:minWidth="150dp"
         android:minHeight="30dp"
         android:textColor="@color/background_material_light"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textAlignment="textEnd"
+        android:layout_alignParentStart="true"
+        android:textSize="25dp"
+        android:textStyle="normal|bold"
+        android:layout_width="106dp" />
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Terrain:"
         android:id="@+id/textView4"
         android:layout_marginTop="15dip"
         android:minWidth="150dp"
@@ -49,22 +38,25 @@
         android:textColor="@color/background_material_light"
         android:layout_below="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
-        android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textAlignment="textEnd"
+        android:textSize="25dp"
+        android:textStyle="normal|bold"
+        android:layout_width="106dp" />
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Distance:"
         android:id="@+id/textView5"
         android:layout_marginTop="15dip"
         android:minWidth="150dp"
         android:minHeight="30dp"
         android:layout_below="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
         android:textColor="@color/background_material_light"
-        android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textAlignment="textEnd"
+        android:textSize="25dp"
+        android:textStyle="normal|bold"
+        android:layout_alignParentStart="true"
+        android:layout_width="106dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -99,5 +91,57 @@
         android:layout_height="wrap_content"
         android:entries="@array/spinner_list_item_array"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Is This Correct?"
+        android:id="@+id/textView"
+        android:textColor="@color/background_material_light"
+        android:textSize="40dp"
+        android:layout_below="@+id/spinner"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/paceText"
+        android:minWidth="150dp"
+        android:minHeight="30dp"
+        android:textColor="@color/background_material_light"
+        android:textAlignment="textStart"
+        android:textSize="25dp"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/terrainText"
+        android:minWidth="150dp"
+        android:minHeight="30dp"
+        android:textColor="@color/background_material_light"
+        android:textAlignment="textStart"
+        android:textSize="25dp"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignStart="@+id/paceText"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/distanceText"
+        android:minWidth="150dp"
+        android:minHeight="30dp"
+        android:textColor="@color/background_material_light"
+        android:textAlignment="textStart"
+        android:textSize="25dp"
+        android:layout_above="@+id/button3"
+        android:layout_alignStart="@+id/terrainText"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

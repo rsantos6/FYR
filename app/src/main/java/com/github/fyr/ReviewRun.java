@@ -29,12 +29,12 @@ public class ReviewRun extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
 
-        TextView tv1 = (TextView) findViewById(R.id.textView2);
-        tv1.setText("Pace: " + data.getPace());
-        TextView tv2 = (TextView) findViewById(R.id.textView4);
-        tv2.setText("Terrain: " + data.getTerrain());
-        TextView tv3 = (TextView) findViewById(R.id.textView5);
-        tv3.setText("Distance: " + data.getDistance());
+        TextView tv1 = (TextView) findViewById(R.id.paceText);
+        tv1.setText("  " + data.getPace());
+        TextView tv2 = (TextView) findViewById(R.id.terrainText);
+        tv2.setText("  " + data.getTerrain());
+        TextView tv3 = (TextView) findViewById(R.id.distanceText);
+        tv3.setText("  " + data.getDistance());
 
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -71,7 +71,7 @@ public class ReviewRun extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(ReviewRun.this, "NothingSelected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReviewRun.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
             }
         });
 

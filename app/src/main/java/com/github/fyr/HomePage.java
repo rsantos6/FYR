@@ -66,7 +66,7 @@ public class HomePage extends AppCompatActivity  { //implements AdapterView.OnIt
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast.makeText(HomePage.this, "NothingSelected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomePage.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
             }
         });
     }
