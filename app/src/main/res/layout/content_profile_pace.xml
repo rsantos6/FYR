@@ -57,7 +57,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 - 9 min/mile"
+            android:text="9 - 10 min/mile"
             android:id="@+id/seven_six"
             android:minWidth="75dp"
             android:checked="false"
@@ -71,7 +71,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9 - 8 min/mile"
+            android:text="8 - 9 min/mile"
             android:checked="false"
             android:id="@+id/eight_seven"
             android:minWidth="75dp"
@@ -85,7 +85,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8 - 7 min/mile"
+            android:text="7 - 8 min/mile"
             android:id="@+id/nine_eight"
             android:checked="false"
             android:minWidth="75dp"
@@ -99,7 +99,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 - 6 min/mile"
+            android:text="6 - 7 min/mile"
             android:id="@+id/ten_nine"
             android:checked="false"
             android:minWidth="75dp"

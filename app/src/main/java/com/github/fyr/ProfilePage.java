@@ -33,6 +33,10 @@ public class ProfilePage extends AppCompatActivity {
     public FirebaseAuth firebaseAuth;
     public FirebaseDatabase database;
     public DatabaseReference databaseReference;
+
+    String userName;
+    String userBio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +88,10 @@ public class ProfilePage extends AppCompatActivity {
         this.databaseReference.child(userUid+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String pace = (String) dataSnapshot.getValue();
+                String name = (String) dataSnapshot.getValue();
+                userName = name;
                 totalRunsText = (TextView) findViewById(R.id.nameText);
-                totalRunsText.setText(pace);
+                totalRunsText.setText(name);
             }
 
             @Override
@@ -98,6 +103,7 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String bio = (String) dataSnapshot.getValue();
+                userBio = bio;
                 totalRunsText = (TextView) findViewById(R.id.bioText);
                 totalRunsText.setText(bio);
             }
@@ -151,8 +157,10 @@ public class ProfilePage extends AppCompatActivity {
         editBioAlert.setTitle("Edit Biography");
         editBioAlert.setMessage("250 character limit");
 
+
         final EditText input = new EditText(this);
         int maxLength = 250;
+        input.setText(userBio);
         input.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
 
         editBioAlert.setView(input);
@@ -183,6 +191,14 @@ public class ProfilePage extends AppCompatActivity {
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), pickImageRequest);
 
+    }
+
+    public void editStats(View view) {
+        UserProfile data = new UserProfile();
+        data.setName(userName);
+        data.setBio(userBio);
+        Intent intent = new Intent(ProfilePage.this, ProfilePace.class).putExtra("obj", data);
+        startActivity(intent);
     }
 
     @Override

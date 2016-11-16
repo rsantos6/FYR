@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/changeProfilePictureButton"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_weight="0.40"
+            android:layout_weight="0.08"
             android:layout_height="35dp"
             android:textAlignment="center"
             android:textStyle="normal|bold"
@@ -106,18 +106,44 @@
             android:layout_width="match_parent"
             android:layout_height="15dp" />
 
-        <TextView
-            android:text="Stats:"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView9"
-            android:textSize="18sp"
-            android:textStyle="normal|bold"
-            android:textColor="@android:color/background_light" />
+            android:layout_height="35dp">
+
+            <TextView
+                android:text="Stats:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:gravity="bottom"
+                android:paddingTop="8dp"
+                android:textColor="@android:color/background_light" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Edit"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editStatsButton"
+                android:layout_gravity="right"
+                android:gravity="right"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:onClick="editStats" />
+
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="5dp" />
+            android:layout_height="15dp" />
 
         <TextView
             android:layout_width="match_parent"
