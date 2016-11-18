@@ -25,5 +25,6 @@
     <string name="title_activity_profile_terrain">ProfileTerrain</string>
     <string name="title_activity_profile_distance">ProfileDistance</string>
     <string name="title_activity_profile_name">ProfileName</string>
+    <string name="title_activity_profile_edit">ProfileEdit</string>
 
 </resources>

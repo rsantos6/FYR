@@ -10,10 +10,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +39,7 @@ public class ProfilePage extends AppCompatActivity {
 
     String userName;
     String userBio;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +174,9 @@ public class ProfilePage extends AppCompatActivity {
                 String value = input.getText().toString();
                 TextView bioText = (TextView) findViewById(R.id.bioText);
                 bioText.setText(value);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                String userUid = user.getUid();
+                databaseReference.child(userUid+"/bio").setValue(value);
             }
         });
 
@@ -194,11 +201,16 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     public void editStats(View view) {
-        UserProfile data = new UserProfile();
+        /*UserProfile data = new UserProfile();
         data.setName(userName);
         data.setBio(userBio);
         Intent intent = new Intent(ProfilePage.this, ProfilePace.class).putExtra("obj", data);
+        startActivity(intent);*/
+        Intent intent = new Intent(ProfilePage.this, ProfileEdit.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+
+
     }
 
     @Override

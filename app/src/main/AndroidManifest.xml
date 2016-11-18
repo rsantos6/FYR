@@ -69,6 +69,10 @@
         <activity
             android:name=".ProfileName"
             android:label="@string/title_activity_profile_name"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".ProfileEdit"
+            android:label="@string/title_activity_profile_edit"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 
