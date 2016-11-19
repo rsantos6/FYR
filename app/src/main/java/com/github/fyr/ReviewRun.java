@@ -19,6 +19,10 @@ public class ReviewRun extends AppCompatActivity {
     private DataToday data;
     public FirebaseAuth firebaseAuth;
 
+    private String pace;
+    private String terrain;
+    private String dist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +34,14 @@ public class ReviewRun extends AppCompatActivity {
         this.data = getIntent().getExtras().getParcelable("obj");
 
         TextView tv1 = (TextView) findViewById(R.id.paceText);
-        tv1.setText("  " + data.getPace());
+        pace = data.getPace();
+        tv1.setText("  " + pace);
         TextView tv2 = (TextView) findViewById(R.id.terrainText);
-        tv2.setText("  " + data.getTerrain());
+        terrain = data.getTerrain();
+        tv2.setText("  " + terrain);
         TextView tv3 = (TextView) findViewById(R.id.distanceText);
-        tv3.setText("  " + data.getDistance());
+        dist = data.getDistance();
+        tv3.setText("  " + dist);
 
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -81,6 +88,15 @@ public class ReviewRun extends AppCompatActivity {
         Intent intent = new Intent(ReviewRun.this, WhatPace.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_back, R.anim.slide_out_back);
+    }
+
+    public void findMatches(View view){
+        Intent intent = new Intent(ReviewRun.this, MatchMakingActivity.class);
+        intent.putExtra("pace", pace);
+        intent.putExtra("terrain", terrain);
+        intent.putExtra("dist", dist);
+
+        startActivity(intent);
     }
 
 }

@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_main);
+        FirebaseDatabase.getInstance();
     }
 
     public void toLogin(View view){

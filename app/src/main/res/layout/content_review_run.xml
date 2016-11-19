@@ -69,7 +69,8 @@
         android:minWidth="400dp"
         android:layout_below="@+id/textView5"
         android:layout_alignStart="@+id/button4"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:onClick="findMatches" />
 
     <Button
         android:layout_width="wrap_content"

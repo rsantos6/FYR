@@ -73,6 +73,10 @@
         <activity
             android:name=".ProfileEdit"
             android:label="@string/title_activity_profile_edit"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".MatchMakingActivity"
+            android:label="@string/title_activity_match_making"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 
