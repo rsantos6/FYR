@@ -36,7 +36,7 @@ public class MatchMakingActivity extends AppCompatActivity {
     private DatabaseReference userlistReference;
     private FirebaseDatabase db;
     private ValueEventListener mUserListListener;
-    ArrayList<String> usernamelist;
+    ArrayList<String> potentialMatches;
     ArrayAdapter arrayAdapter;
     public ListView UserList;
 
@@ -86,8 +86,8 @@ public class MatchMakingActivity extends AppCompatActivity {
                 //System.out.println(dataSnapshot.getValue());
                 //System.out.println(map.keySet());
 
-                usernamelist = new ArrayList<>(map.keySet());
-                arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,usernamelist);
+                potentialMatches = new ArrayList<>(map.keySet());
+                arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,potentialMatches);
                 UserList.setAdapter(arrayAdapter);
             }
 
