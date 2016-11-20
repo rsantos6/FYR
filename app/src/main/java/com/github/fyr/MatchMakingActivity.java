@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,7 @@ public class MatchMakingActivity extends AppCompatActivity {
     private DatabaseReference userlistReference;
     private FirebaseDatabase db;
     private ValueEventListener mUserListListener;
-    ArrayList<String> usernamelist = new ArrayList<>();
+    ArrayList<String> usernamelist;
     ArrayAdapter arrayAdapter;
     public ListView UserList;
 
@@ -56,25 +58,12 @@ public class MatchMakingActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://new-fyr.firebaseio.com/");
         this.firebaseAuth = FirebaseAuth.getInstance();
-        ///
-        //userlistReference = FirebaseDatabase.getInstance().getReference().child("new-fyr");
-        ///
 
-        //usernamelist.remove(usernameOfCurrentUser());
-        //Log.i(TAG, "onDataChange: "+usernamelist.toString());
-        //arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,usernamelist);
-        //UserList.setAdapter(arrayAdapter);
-        ///
-
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_match_making);
         userlistReference = FirebaseDatabase.getInstance().getReference().child("users");
         System.out.println("LOOK HERE!!!!!!!!!");
         System.out.println(userlistReference);
         onStart();
         UserList = (ListView) findViewById(R.id.UserList);
-
-        ///
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +81,12 @@ public class MatchMakingActivity extends AppCompatActivity {
             @Override
 
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("Look Here");
+                //System.out.println("Look Here");
+                HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
+                //System.out.println(dataSnapshot.getValue());
+                //System.out.println(map.keySet());
 
-                usernamelist = new ArrayList<>((ArrayList) dataSnapshot.getValue());
-                //usernamelist.remove(usernameOfCurrentUser());
-                //Log.i(TAG, "onDataChange: "+usernamelist.toString());
+                usernamelist = new ArrayList<>(map.keySet());
                 arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,usernamelist);
                 UserList.setAdapter(arrayAdapter);
             }
@@ -111,15 +101,7 @@ public class MatchMakingActivity extends AppCompatActivity {
 
         mUserListListener = userListener;
     }
-    public String usernameOfCurrentUser()
-    {
-        String email = firebaseAuth.getCurrentUser().getEmail();
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
-    }
+
     @Override
     public void onStop() {
         super.onStop();
