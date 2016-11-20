@@ -7,10 +7,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 
 public class MatchMakingActivity extends AppCompatActivity {
@@ -18,6 +29,14 @@ public class MatchMakingActivity extends AppCompatActivity {
 
     public FirebaseAuth firebaseAuth;
     private Firebase mFirebaseRef;
+
+    private static final String TAG = "UserList" ;
+    private DatabaseReference userlistReference;
+    private FirebaseDatabase db;
+    private ValueEventListener mUserListListener;
+    ArrayList<String> usernamelist = new ArrayList<>();
+    ArrayAdapter arrayAdapter;
+    public ListView UserList;
 
 
     @Override
@@ -35,8 +54,27 @@ public class MatchMakingActivity extends AppCompatActivity {
         System.out.println(pace + " " + terrain + " " + dist);
 
         Firebase.setAndroidContext(this);
-        Firebase myFirebaseRef = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com/");
+        Firebase myFirebaseRef = new Firebase("https://new-fyr.firebaseio.com/");
+        this.firebaseAuth = FirebaseAuth.getInstance();
+        ///
+        //userlistReference = FirebaseDatabase.getInstance().getReference().child("new-fyr");
+        ///
 
+        //usernamelist.remove(usernameOfCurrentUser());
+        //Log.i(TAG, "onDataChange: "+usernamelist.toString());
+        //arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,usernamelist);
+        //UserList.setAdapter(arrayAdapter);
+        ///
+
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_match_making);
+        userlistReference = FirebaseDatabase.getInstance().getReference().child("new-fyr");
+        System.out.println("LOOK HERE!!!!!!!!!");
+        System.out.println(userlistReference);
+        onStart();
+        UserList = (ListView) findViewById(R.id.UserList);
+
+        ///
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +84,71 @@ public class MatchMakingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    protected void onStart() {
+        super.onStart();
+        final ValueEventListener userListener = new ValueEventListener() {
+            @Override
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Look Here");
+
+                usernamelist = new ArrayList<>((ArrayList) dataSnapshot.getValue());
+                //usernamelist.remove(usernameOfCurrentUser());
+                //Log.i(TAG, "onDataChange: "+usernamelist.toString());
+                arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,usernamelist);
+                UserList.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Log.w(TAG, "onCancelled: ",databaseError.toException());
+
+            }
+        };
+        userlistReference.addValueEventListener(userListener);
+
+        mUserListListener = userListener;
+    }
+    public String usernameOfCurrentUser()
+    {
+        String email = firebaseAuth.getCurrentUser().getEmail();
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove post value event listener
+        if (mUserListListener != null) {
+            userlistReference.removeEventListener(mUserListListener);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /**switch(item.getItemId()) {
+            case R.id.action_logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }**/
+        return false;
     }
 
 }

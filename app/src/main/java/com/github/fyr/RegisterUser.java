@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
     protected Button buttonRegister;
@@ -28,6 +30,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     protected TextView textViewSignin;
     protected ProgressDialog progressDialog;
     protected FirebaseAuth firebaseAuth;
+    private DatabaseReference userlistReference;
 
 
 
@@ -87,6 +90,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
+
     }
 
     @Override
@@ -99,5 +103,9 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, LoginUser.class));
             overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
         }
+    }
+
+    public void addUser(){
+
     }
 }
