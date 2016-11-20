@@ -30,7 +30,7 @@ public class ProfileName extends AppCompatActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.user = new UserProfile();
+        this.user = getIntent().getExtras().getParcelable("obj");
         this.firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         this.databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -53,7 +53,7 @@ public class ProfileName extends AppCompatActivity implements View.OnClickListen
         this.user.setName(name);
         this.user.setBio(bio);
         FirebaseUser fireUser = firebaseAuth.getCurrentUser();
-        this.databaseReference.child("users").child(name).setValue(this.user);
+        this.databaseReference.child("users").child(fireUser.getEmail().replace(".","")).setValue(this.user);
         Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(ProfileName.this, ProfilePace.class).putExtra("obj", user);
         startActivity(intent);

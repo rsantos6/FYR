@@ -86,7 +86,7 @@ public class ProfileEdit extends AppCompatActivity {
             String value = this.radioTerrainButton.getText().toString();
             FirebaseUser user = firebaseAuth.getCurrentUser();
             String userUid = user.getUid();
-            databaseReference.child(userUid + "/terrain").setValue(value);
+            databaseReference.child("users").child(user.getEmail().replace(".","") + "/terrain").setValue(value);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
         }
     }
@@ -102,7 +102,7 @@ public class ProfileEdit extends AppCompatActivity {
             String value = this.radioDistanceButton.getText().toString();
             FirebaseUser user = firebaseAuth.getCurrentUser();
             String userUid = user.getUid();
-            databaseReference.child(userUid + "/distance").setValue(value);
+            databaseReference.child("users").child(user.getEmail().replace(".","") + "/distance").setValue(value);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
         }
 
@@ -119,7 +119,7 @@ public class ProfileEdit extends AppCompatActivity {
             String value = this.radioPaceButton.getText().toString();
             FirebaseUser user = firebaseAuth.getCurrentUser();
             String userUid = user.getUid();
-            databaseReference.child(userUid + "/pace").setValue(value);
+            databaseReference.child("users").child(user.getEmail().replace(".","") + "/pace").setValue(value);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
         }
     }

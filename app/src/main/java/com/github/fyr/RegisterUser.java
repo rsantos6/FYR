@@ -31,6 +31,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     protected ProgressDialog progressDialog;
     protected FirebaseAuth firebaseAuth;
     private DatabaseReference userlistReference;
+    public UserProfile data;
 
 
 
@@ -38,7 +39,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
-
+        this.data = new UserProfile();
         this.firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser() != null){
             finish();
@@ -61,6 +62,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     public void registerUser(){
         String email = this.editTextEmail.getText().toString().trim();
         String password = this.editTextPassword.getText().toString().trim();
+        this.data.setEmail(email);
         if (TextUtils.isEmpty(email)){
             //email is empty
             Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
@@ -82,7 +84,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                             progressDialog.hide();
                             Toast.makeText(RegisterUser.this, "Successfully registered!", Toast.LENGTH_SHORT).show();
                             finish();
-                            startActivity(new Intent(getApplicationContext(), ProfileName.class));
+                            startActivity(new Intent(getApplicationContext(), ProfileName.class).putExtra("obj", data));
                             overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                         }else{
                             progressDialog.hide();

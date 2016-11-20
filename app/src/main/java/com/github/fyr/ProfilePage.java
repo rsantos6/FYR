@@ -49,8 +49,8 @@ public class ProfilePage extends AppCompatActivity {
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         FirebaseUser user = this.firebaseAuth.getCurrentUser();
-        String userUid = user.getUid();
-        this.databaseReference.child(userUid+"/distance").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/distance").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String distance = (String) dataSnapshot.getValue();
@@ -63,7 +63,7 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
-        this.databaseReference.child(userUid+"/terrain").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/terrain").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String terrain = (String) dataSnapshot.getValue();
@@ -76,7 +76,7 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
-        this.databaseReference.child(userUid+"/pace").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/pace").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String pace = (String) dataSnapshot.getValue();
@@ -89,7 +89,7 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
-        this.databaseReference.child(userUid+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = (String) dataSnapshot.getValue();
@@ -103,7 +103,7 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
-        this.databaseReference.child(userUid+"/bio").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/bio").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String bio = (String) dataSnapshot.getValue();
@@ -176,7 +176,7 @@ public class ProfilePage extends AppCompatActivity {
                 bioText.setText(value);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 String userUid = user.getUid();
-                databaseReference.child(userUid+"/bio").setValue(value);
+                databaseReference.child("users").child(user.getEmail().replace(".","") + "/bio").setValue(value);
             }
         });
 

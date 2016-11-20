@@ -58,7 +58,7 @@ public class ProfileTerrain extends AppCompatActivity implements View.OnClickLis
             String x = this.radioTerrainButton.getText().toString();
             this.data.setTerrain(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            this.databaseReference.child(user.getUid()).setValue(this.data);
+            this.databaseReference.child("users").child(user.getEmail().replace(".","")).setValue(this.data);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ProfileTerrain.this, ProfileDistance.class).putExtra("obj", data);
             startActivity(intent);

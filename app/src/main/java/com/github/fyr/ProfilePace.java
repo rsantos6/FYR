@@ -44,7 +44,7 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         String userUid = user.getUid();
-        this.databaseReference.child(userUid+"/name").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = (String) dataSnapshot.getValue();
@@ -76,7 +76,7 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
             String x = this.radioPaceButton.getText().toString();
             this.data.setPace(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            this.databaseReference.child(user.getUid()).setValue(this.data);
+            this.databaseReference.child("users").child(user.getEmail().replace(".","")).setValue(this.data);
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ProfilePace.this, ProfileTerrain.class).putExtra("obj", data);
             startActivity(intent);

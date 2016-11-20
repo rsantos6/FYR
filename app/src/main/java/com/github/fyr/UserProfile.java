@@ -12,6 +12,7 @@ public class UserProfile implements Parcelable {
     public String distance;//this String will only be used for the review page
     public String name;
     public String bio;
+    public String email;
 
     public UserProfile(){
 
@@ -38,6 +39,14 @@ public class UserProfile implements Parcelable {
 
     public void setPace(String newPace){
         this.pace = newPace;
+    }
+
+    public void setEmail(String newEmail){
+        this.email = newEmail;
+    }
+
+    public String getEmail(){
+        return this.email;
     }
 
     public void setName(String newName){
