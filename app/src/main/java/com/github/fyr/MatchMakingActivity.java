@@ -68,7 +68,7 @@ public class MatchMakingActivity extends AppCompatActivity {
 
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_match_making);
-        userlistReference = FirebaseDatabase.getInstance().getReference().child("new-fyr");
+        userlistReference = FirebaseDatabase.getInstance().getReference().child("users");
         System.out.println("LOOK HERE!!!!!!!!!");
         System.out.println(userlistReference);
         onStart();
