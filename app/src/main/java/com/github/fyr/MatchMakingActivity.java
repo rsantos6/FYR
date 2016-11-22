@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,9 @@ public class MatchMakingActivity extends AppCompatActivity {
     ArrayList<String> potentialMatches;
     ArrayAdapter arrayAdapter;
     public ListView UserList;
+    private String pace;
+    private String terrain;
+    private String dist;
 
 
     @Override
@@ -49,9 +54,9 @@ public class MatchMakingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String pace = intent.getStringExtra("pace");
-        String terrain = intent.getStringExtra("terrain");
-        String dist = intent.getStringExtra("dist");
+        pace = intent.getStringExtra("pace");
+        terrain = intent.getStringExtra("terrain");
+        dist = intent.getStringExtra("dist");
 
         System.out.println(pace + " " + terrain + " " + dist);
 
@@ -86,7 +91,7 @@ public class MatchMakingActivity extends AppCompatActivity {
                 //System.out.println(dataSnapshot.getValue());
                 //System.out.println(map.keySet());
 
-                potentialMatches = new ArrayList<>(map.keySet());
+                potentialMatches = findMatches(map);
                 arrayAdapter = new ArrayAdapter(MatchMakingActivity.this,android.R.layout.simple_list_item_1,potentialMatches);
                 UserList.setAdapter(arrayAdapter);
             }
@@ -131,6 +136,48 @@ public class MatchMakingActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }**/
         return false;
+    }
+
+    public ArrayList<String> findMatches(HashMap<String, Object> map){
+        int count = 0;
+        boolean stop = false;
+        while(map.keySet().size() > 15 && !stop){
+            switch(count){
+                case 0: filterByLocation(map, 15);
+                    break;
+                case 1: filterByPace(map);
+                    break;
+                case 2: filterByDist(map);
+                    break;
+                case 3: filterByTerrain(map);
+                    break;
+            }
+            count++;
+        }
+        return  new ArrayList<>(map.keySet());
+    }
+
+    public void filterByPace(HashMap<String, Object> map){
+        HashMap<String, Object> backup = new HashMap<String, Object>();
+
+    }
+
+    public void filterByDist(HashMap<String, Object> map){
+        HashMap<String, Object> backup = new HashMap<String, Object>();
+
+    }
+
+    public void filterByLocation(HashMap<String, Object> map, int size){
+        Iterator<String> keys = map.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+
+        }
+    }
+
+    public void filterByTerrain(HashMap<String, Object> map){
+        HashMap<String, Object> backup = new HashMap<String, Object>();
+
     }
 
 }
