@@ -35,6 +35,27 @@
         android:id="@+id/editTextBio"
         android:hint="Enter a short bio"/>
 
+    <ImageView
+        app:srcCompat="@drawable/running"
+        android:id="@+id/profilePicture"
+        android:layout_marginTop="18dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Button
+        android:text="Upload a Profile Picture"
+        android:layout_width="wrap_content"
+        android:id="@+id/changeProfilePictureButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_weight="0.08"
+        android:layout_height="35dp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick="editProfilePicture" />
+
     <Button
         android:layout_margin="40dp"
         android:layout_width="match_parent"

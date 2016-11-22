@@ -76,7 +76,7 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
             String x = this.radioPaceButton.getText().toString();
             this.data.setPace(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            this.databaseReference.child("users").child(user.getEmail().replace(".","")).setValue(this.data);
+            this.databaseReference.child("users").child(user.getEmail().replace(".","")+ "/pace").setValue(this.data.getPace());
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ProfilePace.this, ProfileTerrain.class).putExtra("obj", data);
             startActivity(intent);
