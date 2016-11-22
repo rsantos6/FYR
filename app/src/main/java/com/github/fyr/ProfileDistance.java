@@ -57,7 +57,7 @@ public class ProfileDistance extends AppCompatActivity implements View.OnClickLi
             String x = this.radioDistanceButton.getText().toString();
             this.data.setDistance(x);
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            this.databaseReference.child("users").child(user.getEmail().replace(".","")).setValue(this.data);
+            this.databaseReference.child("users").child(user.getEmail().replace(".","")+ "/distance").setValue(this.data.getDistance());
             Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ProfileDistance.this, HomePage.class).putExtra("obj", data);
             startActivity(intent);

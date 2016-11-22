@@ -1,7 +1,10 @@
 package com.github.fyr;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
 
 /**
  * Created by RussBuss on 11/5/2016.
@@ -13,6 +16,7 @@ public class UserProfile implements Parcelable {
     public String name;
     public String bio;
     public String email;
+    public String image;
 
     public UserProfile(){
 
@@ -24,6 +28,7 @@ public class UserProfile implements Parcelable {
         distance = in.readString();
         name = in.readString();
         bio = in.readString();
+        email = in.readString();
     }
 
     public static final Creator<UserProfile> CREATOR = new Creator<UserProfile>() {
@@ -38,7 +43,17 @@ public class UserProfile implements Parcelable {
     };
 
     public void setPace(String newPace){
+
         this.pace = newPace;
+    }
+
+    public void setImage(String newImage){
+
+        this.image = newImage;
+    }
+
+    public String getImage(){
+        return this.image;
     }
 
     public void setEmail(String newEmail){
@@ -101,6 +116,7 @@ public class UserProfile implements Parcelable {
         parcel.writeString(distance);
         parcel.writeString(name);
         parcel.writeString(bio);
+        parcel.writeString(email);
     }
 }
 

@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ProfilePage extends AppCompatActivity {
@@ -49,6 +52,27 @@ public class ProfilePage extends AppCompatActivity {
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         FirebaseUser user = this.firebaseAuth.getCurrentUser();
+
+
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/image").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String image = (String) dataSnapshot.getValue();
+                byte[] decodedString = Base64.decode(String.valueOf(image), Base64.DEFAULT);
+                Bitmap bm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ImageView imageView = (ImageView) findViewById(R.id.profilePicture);
+                imageView.setImageBitmap(bm);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/distance").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -219,11 +243,24 @@ public class ProfilePage extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), uri);//your image
+                ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
+                bitmap.recycle();
+                byte[] byteArray = bYtE.toByteArray();
+                String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                FirebaseUser user = this.firebaseAuth.getCurrentUser();
+                this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/image").setValue(imageFile);
+
+
                 // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.profilePicture);
-                imageView.setImageBitmap(bitmap);
+                //imageView.setImageBitmap(bitmap);
+
+                byte[] decodedString = Base64.decode(imageFile, Base64.DEFAULT);
+                Bitmap bm = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imageView.setImageBitmap(bm);
             } catch (IOException e) {
                 e.printStackTrace();
             }
