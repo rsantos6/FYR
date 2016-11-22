@@ -249,6 +249,7 @@ public class ProfilePage extends AppCompatActivity {
                 bitmap.recycle();
                 byte[] byteArray = bYtE.toByteArray();
                 String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                
                 FirebaseUser user = this.firebaseAuth.getCurrentUser();
                 this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/image").setValue(imageFile);
 

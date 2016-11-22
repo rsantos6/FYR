@@ -43,12 +43,10 @@ public class UserProfile implements Parcelable {
     };
 
     public void setPace(String newPace){
-
         this.pace = newPace;
     }
 
     public void setImage(String newImage){
-
         this.image = newImage;
     }
 
