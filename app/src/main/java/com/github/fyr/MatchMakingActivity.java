@@ -41,13 +41,13 @@ import com.google.firebase.database.DatabaseError;
 
 import com.bumptech.glide.Glide;
 
-public class MatchMakingActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface{
+public class MatchMakingActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
 
 
     public FirebaseAuth firebaseAuth;
     private Firebase mFirebaseRef;
 
-    private static final String TAG = "UserList" ;
+    private static final String TAG = "UserList";
     private DatabaseReference userlistReference;
     private FirebaseDatabase db;
     private ValueEventListener mUserListListener;
@@ -56,7 +56,12 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
     public static MatchCardAdapter cardAdapter;
     public static ViewHolder viewHolder;
     private ArrayList<UserProfile> potentialMatches;
+    private ArrayList<String> rejectedMatches;
     private SwipeFlingAdapterView flingContainer;
+
+    private String dist;
+    private String pace;
+    private String terrain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +71,9 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String pace = intent.getStringExtra("pace");
-        String terrain = intent.getStringExtra("terrain");
-        String dist = intent.getStringExtra("dist");
-
-        System.out.println(pace + " " + terrain + " " + dist);
+        pace = intent.getStringExtra("pace");
+        terrain = intent.getStringExtra("terrain");
+        dist = intent.getStringExtra("dist");
 
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://new-fyr.firebaseio.com/");
@@ -81,10 +84,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
-        // These lines of code define the ArrayList that is going to be used
-        // to store the card data, and then the ArrayList is set as the adapter.
-        // Populate this ArrayList to create the different cards.
-        potentialMatches = new ArrayList<>();
+        //potentialMatches = new ArrayList<>();
         cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
         flingContainer.setAdapter(cardAdapter);
 
@@ -96,12 +96,13 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
             @Override
             public void onLeftCardExit(Object dataObject) {
+                UserProfile loser = potentialMatches.get(0);
                 potentialMatches.remove(0);
                 cardAdapter.notifyDataSetChanged();
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-
+                rejectedMatches.add(loser.getName());
             }
 
             @Override
@@ -140,23 +141,23 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
     }
 
-    private ArrayList<UserProfile> getMatches(){
-        return null;
-    }
-
     protected void onStart() {
         super.onStart();
         final ValueEventListener userListener = new ValueEventListener() {
             @Override
 
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // potentialMatches = (ArrayList<UserProfile>) dataSnapshot.getValue();
                 HashMap<String, HashMap<String, String>> test = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
                 ArrayList<UserProfile> list = convertMapToList(test);
                 System.out.println(list);
-                potentialMatches = list; 
-                // For Testing 
-                //System.out.println(al);
+                potentialMatches = list;
+                filterMatches();
+
+                // ideally rejected Matches would be saved in the db
+                // putting it in the method that would access it.
+                // db is going to save names of those who have been rejected in the
+                // recent past 
+                rejectedMatches = new ArrayList<>();
             }
 
             @Override
@@ -165,10 +166,12 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
             }
 
-            public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map){
+            public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map) {
+                // This is a time sucking method that would not scale. If android / firebase had an
+                // ActiveRecord subsitute this method would be unnecesary 
                 ArrayList<UserProfile> list = new ArrayList<UserProfile>();
 
-                for (String key: map.keySet()){
+                for (String key : map.keySet()) {
                     UserProfile temp = new UserProfile();
                     temp.setName(map.get(key).get("name"));
                     temp.setBio(map.get(key).get("bio"));
@@ -182,6 +185,74 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
                 return list;
             }
+
+            private ArrayList<UserProfile> filterMatches() {
+                int step = 0;
+                while(potentialMatches.size() > 15 && step != 4){
+                    switch(step){
+                        case 0: filterLocation();
+                            break;
+                        case 1: filterPace();
+                            break;
+                        case 2: filterTerrain();
+                            break;
+                        case 3: filterDistance();
+                            break;
+                    }
+                    step++;
+                }
+                return null;
+            }
+
+            private void filterDistance(){
+                /**
+                 * Commenting out until dist actually saves correctly
+                 int index = 0;
+                 while(potentialMatches.size() > 15){
+                 for(UserProfile u : potentialMatches){
+                 if(u.getDistance() != dist){
+                 potentialMatches.remove(index);
+                 }
+                 index++;
+                 }
+                 }**/
+            }
+
+            private void filterTerrain(){
+                int index = 0;
+                while(potentialMatches.size() > 15){
+                    for(UserProfile u : potentialMatches){
+                        if(u.getTerrain() != terrain){
+                            potentialMatches.remove(index);
+                        }
+                        index++;
+                    }
+                }
+            }
+
+            private void filterPace(){
+                int index = 0;
+                while(potentialMatches.size() > 15){
+                    for(UserProfile u : potentialMatches){
+                        if(u.getPace() != pace){
+                            potentialMatches.remove(index);
+                        }
+                        index++;
+                    }
+                }
+            }
+
+            private void filterLocation(){
+                int index = 0;
+                while(potentialMatches.size() > 15){
+                    for(UserProfile u : potentialMatches){
+                        if(u.getDistance() != dist){
+                            potentialMatches.remove(index);
+                        }
+                        index++;
+                    }
+                }
+            }
         };
         userlistReference.addValueEventListener(userListener);
 
@@ -191,6 +262,12 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
     @Override
     public void onStop() {
         super.onStop();
+
+        // add the rejected list to the User's database
+        // do we want to add the full list or just the ID's?
+        // yes! because then you don't have to convert the
+        // array list from a HashMap to a user list when
+        // you pull it from the db.
 
         // Remove post value event listener
         if (mUserListListener != null) {
@@ -296,8 +373,8 @@ within the view
             viewHolder.cardImage.setImageBitmap(imageBitmap);
 
 
-
             return rowView;
         }
     }
+
 }
