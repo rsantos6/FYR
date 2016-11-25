@@ -3,6 +3,8 @@ package com.github.fyr;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -41,7 +43,7 @@ import com.google.firebase.database.DatabaseError;
 
 import com.bumptech.glide.Glide;
 
-public class MatchMakingActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface {
+public class MatchMakingActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface  {
 
 
     public FirebaseAuth firebaseAuth;
@@ -80,6 +82,9 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         this.firebaseAuth = FirebaseAuth.getInstance();
 
         userlistReference = FirebaseDatabase.getInstance().getReference().child("users");
+        System.out.println(userlistReference);
+        potentialMatches = new ArrayList<>();
+
         onStart();
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
@@ -151,12 +156,15 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 ArrayList<UserProfile> list = convertMapToList(test);
                 System.out.println(list);
                 potentialMatches = list;
+
+                cardAdapter.notifyDataSetChanged();
+
                 filterMatches();
 
                 // ideally rejected Matches would be saved in the db
                 // putting it in the method that would access it.
                 // db is going to save names of those who have been rejected in the
-                // recent past 
+                // recent past
                 rejectedMatches = new ArrayList<>();
             }
 
@@ -169,7 +177,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
             public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map) {
                 // This is a time sucking method that would not scale. If android / firebase had an
                 // ActiveRecord subsitute this method would be unnecesary 
-                ArrayList<UserProfile> list = new ArrayList<UserProfile>();
+                ArrayList<UserProfile> list = new ArrayList<>();
 
                 for (String key : map.keySet()) {
                     UserProfile temp = new UserProfile();
@@ -186,8 +194,10 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 return list;
             }
 
-            private ArrayList<UserProfile> filterMatches() {
+            private void filterMatches() {
                 int step = 0;
+                // PROBLEM! users are going to be in a standard order, need to randomize it
+                // but what is an efficient way to do that...
                 while(potentialMatches.size() > 15 && step != 4){
                     switch(step){
                         case 0: filterLocation();
@@ -201,7 +211,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                     }
                     step++;
                 }
-                return null;
             }
 
             private void filterDistance(){
