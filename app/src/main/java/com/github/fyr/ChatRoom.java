@@ -41,11 +41,15 @@ public class ChatRoom extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
     public FirebaseUser user;
+    public String matchesName;
+    public String key;
 
 
 
-    //push messageObject to firebase
-    //set context would just be getting messageObject from firebase
+    //put conversations in hashmap with a random generated key
+    //userprofile object will have a hashmap
+    //the value of the hashmap will be these randomly generated key
+    //the key to this hashmap will be the other persons name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +57,37 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(R.layout.content_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.matchesName = getIntent().getExtras().getParcelable("obj");
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         this.user = firebaseAuth.getCurrentUser();
+
         this.messageList = new ArrayList<MessageObject>();
 
         this.message = (EditText) findViewById(R.id.etMessage);
         this.listView = (ListView) findViewById(R.id.listview_chat);
         this.sendMessageButton = (Button) findViewById(R.id.buttonSend);
-        setContent();
+
+        this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/hashMap").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                HashMap<String, String> hashMap = (HashMap<String, String>) dataSnapshot.getValue();
+                key = hashMap.get(matchesName);//use this to find the right conversation in the hashmap in firebase, will pull out an arraylist of message objects
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+        setContent(key);
 
         ListView lv = (ListView) findViewById(R.id.listview_chat);
         lv.setAdapter(new MessageAdapter(this, messageList));
@@ -96,7 +121,9 @@ public class ChatRoom extends AppCompatActivity {
                 messageText = message.getText().toString();
                 msg.setMessage(messageText);
                 messageList.add(msg);
-                databaseReference.child("chat").child(user.getEmail().replace(".","")).setValue(messageList);
+                HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
+                hash.put(this.key, messageList);
+                databaseReference.child("chat").child("chatHashMap").setValue(hash);
                 ListView listView = (ListView) findViewById(R.id.listview_chat);
                 listView.setAdapter(new MessageAdapter(this,messageList));
             }
@@ -104,23 +131,18 @@ public class ChatRoom extends AppCompatActivity {
 
 
 
-    public void setContent() {
-        final ArrayList<MessageObject> mList = new ArrayList<MessageObject>();
-        this.databaseReference.child("chat").child(user.getEmail().replace(".", "")).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setContent(String key) {
+        final String k = key;
+        this.databaseReference.child("chat").child("chatHashMap").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    HashMap<String, String> hashMap = (HashMap<String, String>) postSnapshot.getValue();
-                    String name = hashMap.get("name").toString();
-                    String message = hashMap.get("message").toString();
-                    MessageObject m = new MessageObject();
 
-                    m.setMessage(message);
-                    m.setName(name);
-                    mList.add(m);
-                    actualContent(mList);
-                }
+                ArrayList<MessageObject> mList = new ArrayList<MessageObject>();
+                HashMap<String, ArrayList<MessageObject>> hashMap = (HashMap<String, ArrayList<MessageObject>>) dataSnapshot.getValue();
+                mList = hashMap.get(k);
+                actualContent(mList);
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by RussBuss on 11/5/2016.
@@ -17,6 +18,8 @@ public class UserProfile implements Parcelable {
     public String bio;
     public String email;
     public String image;
+    public HashMap<String, String> hashMap;
+    public ArrayList<String> matches;
 
     public UserProfile(){
 
@@ -41,6 +44,22 @@ public class UserProfile implements Parcelable {
         public UserProfile[] newArray(int size) { return new UserProfile[size];
         }
     };
+
+    public void setHashMap(String key, String value){
+        this.hashMap.put(key, value);
+    }
+
+    public HashMap<String, String> getHashMap(){
+        return this.hashMap;
+    }
+
+    public void setMatches(String matchName){
+        this.matches.add(matchName);
+    }
+
+    public ArrayList<String> getMatches(){
+        return this.matches;
+    }
 
     public void setPace(String newPace){
         this.pace = newPace;

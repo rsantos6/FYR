@@ -47,7 +47,7 @@ public class HomePage extends AppCompatActivity  { //implements AdapterView.OnIt
                    Toast.makeText(HomePage.this, "Already on Home page", Toast.LENGTH_SHORT).show();//if clicks home page and on home
                }
                if (i==3){
-                   intent = new Intent(HomePage.this, ChatRoom.class);//This will be the MatchesPage
+                   intent = new Intent(HomePage.this, ChatList.class);//This will be the MatchesPage
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }

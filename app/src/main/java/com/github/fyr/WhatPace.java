@@ -56,7 +56,7 @@ public class WhatPace extends AppCompatActivity {
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }
                if (i==3){
-                   intent = new Intent(WhatPace.this, ChatRoom.class);//This will be the MatchesPage
+                   intent = new Intent(WhatPace.this, ChatList.class);//This will be the MatchesPage
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }

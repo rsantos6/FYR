@@ -28,5 +28,6 @@
     <string name="title_activity_profile_edit">ProfileEdit</string>
     <string name="title_activity_match_making">MatchMakingActivity</string>
     <string name="title_activity_chat_room">ChatRoom</string>
+    <string name="title_activity_chat_list">ChatList</string>
 
 </resources>
