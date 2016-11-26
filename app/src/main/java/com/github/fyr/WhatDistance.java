@@ -47,11 +47,11 @@ public class WhatDistance extends AppCompatActivity {
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }
-               /*if (i==3){
-                   intent = new Intent(WhatDistance.this, MatchPage.class);//This will be the MatchesPage
+               if (i==3){
+                   intent = new Intent(WhatDistance.this, ChatRoom.class);//This will be the MatchesPage
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+               }
                 if (i==4){
                     intent = new Intent(WhatDistance.this, AboutPage.class);
                     startActivity(intent);

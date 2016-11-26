@@ -316,7 +316,7 @@ Stores all the fields that are going to be on the cards,
 along with the background.
 ============================================================*/
 
-    public static class ViewHolder {
+    private static class ViewHolder {
         public TextView nameText;
         public ImageView cardImage;
         public TextView bioText;

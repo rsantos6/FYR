@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_chat_room"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.github.fyr.ChatRoom"
+    tools:showIn="@layout/activity_chat_room"
+    android:background="@drawable/background_color">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_chat"
+        android:transcriptMode="alwaysScroll"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+
+
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_toLeftOf="@+id/buttonSend"
+            android:layout_alignBottom="@+id/buttonSend"
+            android:gravity="top"
+            android:hint="Enter Message"
+            android:imeOptions="actionSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:textAlignment="center"
+            android:id="@+id/buttonSend"
+            android:backgroundTint="@color/button_material_dark"
+            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:text="Send"
+            android:textSize="18sp"
+            android:onClick="Add"
+            android:layout_alignParentTop="true" />
+
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

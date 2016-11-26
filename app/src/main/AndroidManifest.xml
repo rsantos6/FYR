@@ -79,6 +79,10 @@
         <activity
             android:name=".MatchMakingActivity"
             android:label="@string/title_activity_match_making"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".ChatRoom"
+            android:label="@string/title_activity_chat_room"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
     </application>
 

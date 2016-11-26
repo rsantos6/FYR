@@ -72,11 +72,11 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
                 }
-               /*if (i==3){
-                   intent = new Intent(ReviewRun.this, MatchPage.class);//This will be the MatchesPage
+               if (i==3){
+                   intent = new Intent(ReviewRun.this, ChatRoom.class);//This will be the MatchesPage
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+               }
                 if (i == 4) {
                     intent = new Intent(ReviewRun.this, AboutPage.class);
                     startActivity(intent);
