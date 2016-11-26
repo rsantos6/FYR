@@ -21,6 +21,7 @@ public class UserProfile implements Parcelable {
     public HashMap<String, String> hashMap;
     public ArrayList<String> matches;
 
+
     public UserProfile(){
 
     }
