@@ -22,7 +22,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.LocationCallback;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ReviewRun extends AppCompatActivity implements LocationListener {
     private DataToday data;
@@ -35,6 +43,7 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected String gpsText;
+    protected Location gps;
     protected boolean gps_enabled, network_enabled;
 
     @Override
@@ -146,16 +155,19 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
         }
         locationManager.requestLocationUpdates("gps", 50, 0, locationListener);
         System.out.println("\n LOOK HERE \n" + gpsText);
+        FirebaseUser curr = firebaseAuth.getCurrentUser();
+        System.out.println(curr.getEmail());
 
         Intent intent = new Intent(ReviewRun.this, MatchMakingActivity.class);
         intent.putExtra("pace", pace);
         intent.putExtra("terrain", terrain);
         intent.putExtra("dist", dist);
+
         if(gpsText != null){
             intent.putExtra("gpsText", gpsText);
         }else{
             // add a default
-            // change this to Brandeis in the future, or call a user's last known location 
+            // change this to Brandeis in the future, or call a user's last known location
             intent.putExtra("gpsText", 37.421998333333335 -122.08400000000002);
         }
         // Need to put GPS info
@@ -180,7 +192,44 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
     }
 
     public void onLocationChanged(Location location) {
+        // This method ONLY gets called when the location gets changed.
+        // Therefore, when starting/restarting the app in one sitting it does NOT re-run this method
+        // Need to save a location as a default in the db and access that when needed
         gpsText = location.getLatitude() + " " + location.getLongitude();
+        gps = location;
+        addLocationToGeoFire(location);
+    }
+
+    private void addLocationToGeoFire(Location location){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+        GeoFire geoFire = new GeoFire(ref);
+        FirebaseUser curr = firebaseAuth.getCurrentUser();
+        geoFire.setLocation(curr.getEmail(), new GeoLocation(location.getLatitude(), location.getLongitude()));
+    }
+
+    private void checkLocation(){
+        if(gps == null){
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+            GeoFire geoFire = new GeoFire(ref);
+            FirebaseUser curr = firebaseAuth.getCurrentUser();
+            geoFire.getLocation(curr.getEmail(), new LocationCallback() {
+                @Override
+                public void onLocationResult(String key, GeoLocation location) {
+                    if (location != null) {
+                        //gps = new Location(location.latitude, location.longitude);
+
+                        System.out.println(String.format("The location for key %s is [%f,%f]", key, location.latitude, location.longitude));
+                    } else {
+                        System.out.println(String.format("There is no location for key %s in GeoFire", key));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.err.println("There was an error getting the GeoFire location: " + databaseError);
+                }
+            });
+        }
     }
 
     @Override

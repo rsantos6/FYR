@@ -81,15 +81,76 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         Firebase myFirebaseRef = new Firebase("https://new-fyr.firebaseio.com/");
         this.firebaseAuth = FirebaseAuth.getInstance();
 
-        userlistReference = FirebaseDatabase.getInstance().getReference().child("users");
-        System.out.println(userlistReference);
+        //
+        //System.out.println("\n Look here \n" + userlistReference);
         potentialMatches = new ArrayList<>();
+        UserProfile test = new UserProfile();
+        test.setName("Thanks for Using FYR");
+        test.setBio(("Swipe to view your matches!"));
+        test.setImage("");
+        potentialMatches.add(test);
+        //
 
-        onStart();
+        userlistReference = FirebaseDatabase.getInstance().getReference();//.child("users");
+        //userlistReference.o
+
+
+
+        userlistReference.child("users").addValueEventListener(new ValueEventListener() {
+
+            @Override
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("fghsghhjgdfhvhvcghcgnvggdcgfsg");
+                HashMap<String, HashMap<String, String>> test = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
+                ArrayList<UserProfile> list = convertMapToList(test);
+                System.out.println(list);
+                potentialMatches = list;
+
+                cardAdapter.notifyDataSetChanged();
+
+                filterMatches();
+
+                // ideally rejected Matches would be saved in the db
+                // putting it in the method that would access it.
+                // db is going to save names of those who have been rejected in the
+                // recent past
+                rejectedMatches = new ArrayList<>();
+                System.out.println("MATCHES: \n" + potentialMatches);
+
+                cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
+                flingContainer.setAdapter(cardAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Log.w(TAG, "onCancelled: ",databaseError.toException());
+
+            }
+
+            public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map) {
+                // This is a time sucking method that would not scale. If android / firebase had an
+                // ActiveRecord subsitute this method would be unnecesary
+                ArrayList<UserProfile> list = new ArrayList<>();
+
+                for (String key : map.keySet()) {
+                    UserProfile temp = new UserProfile();
+                    temp.setName(map.get(key).get("name"));
+                    temp.setBio(map.get(key).get("bio"));
+                    temp.setImage(map.get(key).get("image"));
+                    temp.setPace(map.get(key).get("pace"));
+                    temp.setTerrain(map.get(key).get("terrain"));
+                    // Distance isn't in db yet, come back to this
+                    list.add(temp);
+                }
+                return list;
+            }
+        });
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         //potentialMatches = new ArrayList<>();
+        System.out.println("Matches 222\n"+potentialMatches);
         cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
         flingContainer.setAdapter(cardAdapter);
 
@@ -107,7 +168,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                rejectedMatches.add(loser.getName());
+                //rejectedMatches.add(loser.getName());
             }
 
             @Override
@@ -142,130 +203,79 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 cardAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
-    protected void onStart() {
+    private void filterMatches() {
+        int step = 0;
+        // PROBLEM! users are going to be in a standard order, need to randomize it
+        // but what is an efficient way to do that...
+        while(potentialMatches.size() > 15 && step != 4){
+            switch(step){
+                case 0: filterLocation();
+                    break;
+                case 1: filterPace();
+                    break;
+                case 2: filterTerrain();
+                    break;
+                case 3: filterDistance();
+                    break;
+            }
+            step++;
+        }
+    }
+
+    private void filterDistance(){
+        /**
+         * Commenting out until dist actually saves correctly
+         int index = 0;
+         while(potentialMatches.size() > 15){
+         for(UserProfile u : potentialMatches){
+         if(u.getDistance() != dist){
+         potentialMatches.remove(index);
+         }
+         index++;
+         }
+         }**/
+    }
+
+    private void filterTerrain(){
+        int index = 0;
+        while(potentialMatches.size() > 15){
+            for(UserProfile u : potentialMatches){
+                if(u.getTerrain() != terrain){
+                    potentialMatches.remove(index);
+                }
+                index++;
+            }
+        }
+    }
+
+    private void filterPace(){
+        int index = 0;
+        while(potentialMatches.size() > 15){
+            for(UserProfile u : potentialMatches){
+                if(u.getPace() != pace){
+                    potentialMatches.remove(index);
+                }
+                index++;
+            }
+        }
+    }
+
+    private void filterLocation(){
+        int index = 0;
+        while(potentialMatches.size() > 15){
+            for(UserProfile u : potentialMatches){
+                if(u.getDistance() != dist){
+                    potentialMatches.remove(index);
+                }
+                index++;
+            }
+        }
+    }
+
+    protected  void onStart(){
         super.onStart();
-        final ValueEventListener userListener = new ValueEventListener() {
-            @Override
-
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                HashMap<String, HashMap<String, String>> test = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
-                ArrayList<UserProfile> list = convertMapToList(test);
-                System.out.println(list);
-                potentialMatches = list;
-
-                cardAdapter.notifyDataSetChanged();
-
-                filterMatches();
-
-                // ideally rejected Matches would be saved in the db
-                // putting it in the method that would access it.
-                // db is going to save names of those who have been rejected in the
-                // recent past
-                rejectedMatches = new ArrayList<>();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Log.w(TAG, "onCancelled: ",databaseError.toException());
-
-            }
-
-            public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map) {
-                // This is a time sucking method that would not scale. If android / firebase had an
-                // ActiveRecord subsitute this method would be unnecesary 
-                ArrayList<UserProfile> list = new ArrayList<>();
-
-                for (String key : map.keySet()) {
-                    UserProfile temp = new UserProfile();
-                    temp.setName(map.get(key).get("name"));
-                    temp.setBio(map.get(key).get("bio"));
-                    temp.setImage(map.get(key).get("image"));
-                    temp.setPace(map.get(key).get("pace"));
-                    temp.setTerrain(map.get(key).get("terrain"));
-                    // Distance isn't in db yet, come back to this
-                    list.add(temp);
-                }
-
-
-                return list;
-            }
-
-            private void filterMatches() {
-                int step = 0;
-                // PROBLEM! users are going to be in a standard order, need to randomize it
-                // but what is an efficient way to do that...
-                while(potentialMatches.size() > 15 && step != 4){
-                    switch(step){
-                        case 0: filterLocation();
-                            break;
-                        case 1: filterPace();
-                            break;
-                        case 2: filterTerrain();
-                            break;
-                        case 3: filterDistance();
-                            break;
-                    }
-                    step++;
-                }
-            }
-
-            private void filterDistance(){
-                /**
-                 * Commenting out until dist actually saves correctly
-                 int index = 0;
-                 while(potentialMatches.size() > 15){
-                 for(UserProfile u : potentialMatches){
-                 if(u.getDistance() != dist){
-                 potentialMatches.remove(index);
-                 }
-                 index++;
-                 }
-                 }**/
-            }
-
-            private void filterTerrain(){
-                int index = 0;
-                while(potentialMatches.size() > 15){
-                    for(UserProfile u : potentialMatches){
-                        if(u.getTerrain() != terrain){
-                            potentialMatches.remove(index);
-                        }
-                        index++;
-                    }
-                }
-            }
-
-            private void filterPace(){
-                int index = 0;
-                while(potentialMatches.size() > 15){
-                    for(UserProfile u : potentialMatches){
-                        if(u.getPace() != pace){
-                            potentialMatches.remove(index);
-                        }
-                        index++;
-                    }
-                }
-            }
-
-            private void filterLocation(){
-                int index = 0;
-                while(potentialMatches.size() > 15){
-                    for(UserProfile u : potentialMatches){
-                        if(u.getDistance() != dist){
-                            potentialMatches.remove(index);
-                        }
-                        index++;
-                    }
-                }
-            }
-        };
-        userlistReference.addValueEventListener(userListener);
-
-        mUserListListener = userListener;
     }
 
     @Override
@@ -377,9 +387,9 @@ within the view
             viewHolder.bioText.setText(userList.get(position).getBio() + "");
             String imageString = userList.get(position).getImage();
 
-            byte[] decodedImage = Base64.decode(imageString, Base64.DEFAULT);
-            Bitmap imageBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
-            viewHolder.cardImage.setImageBitmap(imageBitmap);
+            //byte[] decodedImage = Base64.decode(imageString, Base64.DEFAULT);
+            //Bitmap imageBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+            viewHolder.cardImage.setImageBitmap(null);//imageBitmap);
 
 
             return rowView;
