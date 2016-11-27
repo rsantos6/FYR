@@ -32,7 +32,9 @@ public class ChatList extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase database;
     public FirebaseUser user;
-    public ArrayList<String> matches = new ArrayList<String>();
+    public ArrayList<String> matches;
+    public UserProfile accepted;
+    public String acceptedName;
 
 
 
@@ -43,61 +45,50 @@ public class ChatList extends AppCompatActivity {
         setContentView(R.layout.activity_chat_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.matches = new ArrayList<String>();
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         this.user = firebaseAuth.getCurrentUser();
 
-        matches.add("Russ");//user has an arraylist of people that they matched to
+        Intent intent = getIntent();
+        // Get the extras (if there are any)
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey("obj")) {
+                this.accepted = extras.getParcelable("obj");
+                this.acceptedName = this.accepted.getName().toString();
+                this.databaseReference.child("users").child(this.user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        matches = (ArrayList<String>) dataSnapshot.getValue();//get the arraylist of matches
+                        setArray(matches);
+                    }
 
-        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();//randomly generate a string which will be used as the key
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            char c = chars[random.nextInt(chars.length)];
-            sb.append(c);
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        } else {
+            this.databaseReference.child("users").child(this.user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    matches = (ArrayList<String>) dataSnapshot.getValue();//get the arraylist of matches
+                    setContent(matches);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
-        String key = sb.toString();
-
-        HashMap<String, String> hashing = new HashMap<>();//the user will have a hashmap in which the key is the other person's name and the
-        //desired value is the ranodmly generated String. The random String will be used as the key for another HashMap which will contain the
-        //specific chatroom as the value
-        hashing.put("Russ",key);
-        this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/hashMap").setValue(hashing);
-
-        MessageObject ms = new MessageObject();//for testing create a messsage
-        ms.setMessage("hey");
-        ms.setName("Russ");
-        MessageObject ma = new MessageObject();//for testing create a messsage
-        ma.setMessage("fuck");
-        ma.setName("Russ");
-        ArrayList<MessageObject> ml = new ArrayList<>();//this represents the actual conversation
-        ml.add(ms);
-        ml.add(ma);
-        HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
-        hash.put(key, ml);//hashmap with the messagelist as the value, access it by using randomly generated String
-        this.databaseReference.child("chat").setValue(hash);
-        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/matches").setValue(matches);
-
-
-
-        this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                matches = (ArrayList<String>) dataSnapshot.getValue();//get the arraylist of matches
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        ListView listView = (ListView) findViewById(R.id.chatList);//populate the listview with their name
-        listView.setAdapter(new ChatListAdapter(this,matches));
 
 
     }
+
 
     public void goToConversation(View view){
         TextView textView = (TextView) findViewById(R.id.match_name);//whichever person the user clicks on, get their name
@@ -120,6 +111,41 @@ public class ChatList extends AppCompatActivity {
         });
 
     }
+
+    public void setContent(ArrayList<String> match){
+        this.matches = match;
+        ListView listView = (ListView) findViewById(R.id.chatList);//populate the listview with their name
+        listView.setAdapter(new ChatListAdapter(ChatList.this,matches));
+    }
+
+    public void setArray(ArrayList<String> match){
+        this.matches = match;
+        this.matches.add(this.acceptedName);//user has an arraylist of people that they matched to
+
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();//randomly generate a string which will be used as the key
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String key = sb.toString();
+
+        HashMap<String, String> hashing = new HashMap<>();//the user will have a hashmap in which the key is the other person's name and the
+        //desired value is the ranodmly generated String. The random String will be used as the key for another HashMap which will contain the
+        //specific chatroom as the value
+        hashing.put(this.acceptedName,key);
+        this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/hashMap").setValue(hashing);
+        ArrayList<MessageObject> ml = new ArrayList<>();//this represents the actual conversation
+        HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
+        hash.put(key, ml);//hashmap with the messagelist as the value, access it by using randomly generated String
+        this.databaseReference.child("chat").setValue(hash);
+        this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/matches").setValue(matches);
+        ListView listView = (ListView) findViewById(R.id.chatList);//populate the listview with their name
+        listView.setAdapter(new ChatListAdapter(ChatList.this,this.matches));
+    }
+
+
 
 
 }

@@ -57,7 +57,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
     private ValueEventListener mUserListListener;
     private ArrayList<String> rejectedMatches;
     private SwipeFlingAdapterView flingContainer;
-
+    public boolean firstCard = true;
     private String dist;
     private String pace;
     private String terrain;
@@ -151,6 +151,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 UserProfile loser = potentialMatches.get(0);
                 potentialMatches.remove(0);
                 cardAdapter.notifyDataSetChanged();
+                firstCard = false;
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
@@ -159,9 +160,16 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
             @Override
             public void onRightCardExit(Object dataObject) {
-
+                UserProfile accepted = potentialMatches.get(0);
                 potentialMatches.remove(0);
-                cardAdapter.notifyDataSetChanged();
+                if (!firstCard){
+                    cardAdapter.notifyDataSetChanged();
+                    Intent intent = new Intent(MatchMakingActivity.this, ChatList.class).putExtra("obj", accepted);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+                firstCard = false;
+
             }
 
             @Override
