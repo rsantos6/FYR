@@ -47,17 +47,14 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
 
     public FirebaseAuth firebaseAuth;
-    private Firebase mFirebaseRef;
 
     private static final String TAG = "UserList";
     private DatabaseReference userlistReference;
-    private FirebaseDatabase db;
-    private ValueEventListener mUserListListener;
-    public ListView UserList;
 
     public static MatchCardAdapter cardAdapter;
     public static ViewHolder viewHolder;
     private ArrayList<UserProfile> potentialMatches;
+    private ValueEventListener mUserListListener;
     private ArrayList<String> rejectedMatches;
     private SwipeFlingAdapterView flingContainer;
 
@@ -78,11 +75,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         dist = intent.getStringExtra("dist");
 
         Firebase.setAndroidContext(this);
-        Firebase myFirebaseRef = new Firebase("https://new-fyr.firebaseio.com/");
         this.firebaseAuth = FirebaseAuth.getInstance();
-
-        //
-        //System.out.println("\n Look here \n" + userlistReference);
         potentialMatches = new ArrayList<>();
         UserProfile test = new UserProfile();
         test.setName("Thanks for Using FYR");
@@ -101,10 +94,8 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
             @Override
 
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("fghsghhjgdfhvhvcghcgnvggdcgfsg");
                 HashMap<String, HashMap<String, String>> test = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
                 ArrayList<UserProfile> list = convertMapToList(test);
-                System.out.println(list);
                 potentialMatches = list;
 
                 cardAdapter.notifyDataSetChanged();
@@ -116,8 +107,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 // db is going to save names of those who have been rejected in the
                 // recent past
                 rejectedMatches = new ArrayList<>();
-                System.out.println("MATCHES: \n" + potentialMatches);
-
                 cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
                 flingContainer.setAdapter(cardAdapter);
             }
@@ -148,9 +137,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         });
 
         flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-
-        //potentialMatches = new ArrayList<>();
-        System.out.println("Matches 222\n"+potentialMatches);
         cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
         flingContainer.setAdapter(cardAdapter);
 
@@ -387,9 +373,12 @@ within the view
             viewHolder.bioText.setText(userList.get(position).getBio() + "");
             String imageString = userList.get(position).getImage();
 
-            //byte[] decodedImage = Base64.decode(imageString, Base64.DEFAULT);
-            //Bitmap imageBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
-            viewHolder.cardImage.setImageBitmap(null);//imageBitmap);
+            if(imageString == null){
+                imageString = userlistReference.child("users").child("rsan@brandeisedu").child("image").toString();
+            }
+            byte[] decodedImage = Base64.decode(imageString, Base64.DEFAULT);
+            Bitmap imageBitmap = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+            viewHolder.cardImage.setImageBitmap(imageBitmap);
 
 
             return rowView;
