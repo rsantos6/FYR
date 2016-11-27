@@ -33,11 +33,11 @@ public class AboutPage extends AppCompatActivity {
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                }
-               /*if (i==3){
-                   intent = new Intent(AboutPage.this, MatchPage.class);//This will be the MatchesPage
+               if (i==3){
+                   intent = new Intent(AboutPage.this, ChatList.class);//This will be the MatchesPage
                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
-               }*/
+               }
                 if (i==4){
                     Toast.makeText(AboutPage.this, "Already on About page", Toast.LENGTH_SHORT).show();//if clicks home page and on home
                 }

@@ -14,7 +14,7 @@
         <item></item>
         <item>Profile</item>
         <item>Home</item>
-        <item>Matches</item>
+        <item>Chat</item>
         <item>About</item>
         <item>LogOut</item>
     </string-array>
@@ -27,5 +27,7 @@
     <string name="title_activity_profile_name">ProfileName</string>
     <string name="title_activity_profile_edit">ProfileEdit</string>
     <string name="title_activity_match_making">MatchMakingActivity</string>
+    <string name="title_activity_chat_room">ChatRoom</string>
+    <string name="title_activity_chat_list">ChatList</string>
 
 </resources>
