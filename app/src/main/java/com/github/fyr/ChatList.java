@@ -28,6 +28,11 @@ import java.util.Random;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
+/*
+Basic idea is that the chat is a hash map and the conversations are stored in an arraylist of message objects
+to access this hash map you need a randomly generated key which the user accesses with the name of the other person
+ */
+
 public class ChatList extends AppCompatActivity {
     public DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
