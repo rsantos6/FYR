@@ -35,6 +35,7 @@ public class ChatList extends AppCompatActivity {
     public FirebaseUser user;
     public ArrayList<ListViewObjects> matches = new ArrayList<ListViewObjects>();
     public HashMap<String, String> userHashMap = new HashMap<String, String>();
+    public String key;
 
 
 
@@ -49,6 +50,7 @@ public class ChatList extends AppCompatActivity {
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         this.user = firebaseAuth.getCurrentUser();
+
 
         Intent intent = getIntent();
         // Get the extras (if there are any)
@@ -95,7 +97,7 @@ public class ChatList extends AppCompatActivity {
                     char c = chars[random.nextInt(chars.length)];
                     sb.append(c);
                 }
-                String key = sb.toString();
+                this.key = sb.toString();
                 this.userHashMap.put(matched.getName(),key);
 
 
@@ -113,25 +115,39 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                this.databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        HashMap<String, ArrayList<MessageObject>> hashMap = (HashMap<String, ArrayList<MessageObject>>) dataSnapshot.getValue();
+                        setHash(hashMap);
+                    }
 
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-
-
-                MessageObject ms = new MessageObject();//for testing create a messsage
-                ms.setMessage("Welcome to the chat room!");
-                ms.setName("FYR");
-                ArrayList<MessageObject> ml = new ArrayList<>();//this represents the actual conversation
-                ml.add(ms);
-                HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
-                hash.put(key, ml);//hashmap with the messagelist as the value, access it by using randomly generated String
-                this.databaseReference.child("chat").setValue(hash);
-
-
-
+                    }
+                });
 
             }
         }
+    }
+
+    public void setHash(HashMap<String, ArrayList<MessageObject>> hashing){
+        MessageObject ms = new MessageObject();//for testing create a messsage
+        ms.setMessage("Welcome to the chat room!");
+        ms.setName("FYR");
+        ArrayList<MessageObject> ml = new ArrayList<>();//this represents the actual conversation
+        ml.add(ms);
+        HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
+        hash.put(this.key, ml);//hashmap with the messagelist as the value, access it by using randomly generated String
+        HashMap<String, ArrayList<MessageObject>> temp = new HashMap<String, ArrayList<MessageObject>>();
+        if(hashing != null){
+            temp.putAll(hashing);
+        }
+        temp.putAll(hash);
+        this.databaseReference.child("chat").setValue(temp);
     }
 
     public void setHashContent(HashMap<String,String> hash){
