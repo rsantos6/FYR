@@ -36,6 +36,8 @@ public class ChatList extends AppCompatActivity {
     public ArrayList<ListViewObjects> matches = new ArrayList<ListViewObjects>();
     public HashMap<String, String> userHashMap = new HashMap<String, String>();
     public String key;
+    public String nameOfUser;
+    public String matchesEmail;
 
 
 
@@ -59,9 +61,50 @@ public class ChatList extends AppCompatActivity {
             if (extras.containsKey("obj")) {
                 UserProfile matched = extras.getParcelable("obj");
                 ListViewObjects lv = new ListViewObjects();
-                lv.setEmail(matched.getEmail());
+                lv.setEmail(matched.getEmail().toLowerCase());
+                this.matchesEmail = matched.getEmail().toLowerCase();
                 lv.setName(matched.getName());
                 this.matches.add(lv);
+
+                this.databaseReference.child("users").child(this.user.getEmail().replace(".", "") + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String name = (String) dataSnapshot.getValue();
+                        setUserName(name);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                this.databaseReference.child("users").child(matched.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<HashMap> match = (ArrayList<HashMap>) dataSnapshot.getValue();//get the arraylist of matches
+                        ArrayList<ListViewObjects> mlo = new ArrayList<ListViewObjects>();
+                        if (match != null){
+                            for(int i =0; i<match.size();i++) {
+                                HashMap bigHash = match.get(i);
+                                String name = (String) bigHash.get("name");
+                                String email = (String) bigHash.get("email");
+                                ListViewObjects lvo = new ListViewObjects();
+                                lvo.setName(name);
+                                lvo.setEmail(email);
+                                mlo.add(lvo);
+                            }
+                        }
+
+
+                        setMatches(mlo);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -115,6 +158,19 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                this.databaseReference.child("users").child(this.matchesEmail.replace(".", "") + "/hashMap").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        HashMap<String, String> hash = (HashMap<String, String>) dataSnapshot.getValue();//get the arraylist of matches
+                        setOtherHashContent(hash);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
                 this.databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -131,7 +187,57 @@ public class ChatList extends AppCompatActivity {
                 });
 
             }
+        }else{
+            this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<HashMap> match = (ArrayList<HashMap>) dataSnapshot.getValue();//get the arraylist of matches
+                    ArrayList<ListViewObjects> mlo = new ArrayList<ListViewObjects>();
+                    if (match != null){
+                        for(int i =0; i<match.size();i++) {
+                            HashMap bigHash = match.get(i);
+                            String name = (String) bigHash.get("name");
+                            String email = (String) bigHash.get("email");
+                            ListViewObjects lvo = new ListViewObjects();
+                            lvo.setName(name);
+                            lvo.setEmail(email);
+                            mlo.add(lvo);
+                        }
+                    }
+
+
+                    setContent(mlo);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
+    }
+
+    private void setOtherHashContent(HashMap<String, String> hash) {
+        HashMap<String, String> temp = new HashMap<String, String>();
+        if(hash != null){
+            temp.putAll(hash);
+        }
+        HashMap<String, String> newHash = new HashMap<String, String>();
+        newHash.put(this.nameOfUser, this.key);
+        temp.putAll(newHash);
+        this.databaseReference.child("users").child(this.matchesEmail.replace(".", "") + "/hashMap").setValue(temp);
+    }
+
+    private void setMatches(ArrayList<ListViewObjects> mlo) {
+        ListViewObjects userProfile = new ListViewObjects();
+        userProfile.setName(this.nameOfUser);
+        userProfile.setEmail(this.user.getEmail());
+        mlo.add(userProfile);
+        this.databaseReference.child("users").child(this.matchesEmail.replace(".","") + "/matches").setValue(mlo);
+    }
+
+    private void setUserName(String name) {
+        this.nameOfUser = name;
     }
 
     public void setHash(HashMap<String, ArrayList<MessageObject>> hashing){
