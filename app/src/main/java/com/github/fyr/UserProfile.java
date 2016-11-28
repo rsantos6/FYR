@@ -20,10 +20,10 @@ public class UserProfile implements Parcelable {
     public String image;
     public HashMap<String, String> hashMap;
     public ArrayList<String> matches;
+    public HashMap<String, ArrayList<MessageObject>> convHashMap;
 
 
     public UserProfile(){
-
     }
 
     public UserProfile(Parcel in) {
@@ -45,6 +45,14 @@ public class UserProfile implements Parcelable {
         public UserProfile[] newArray(int size) { return new UserProfile[size];
         }
     };
+
+    public void setConversation(String key, ArrayList<MessageObject> value){
+        this.convHashMap.put(key, value);
+    }
+
+    public HashMap<String, ArrayList<MessageObject>> getConversation(){
+        return this.convHashMap;
+    }
 
     public void setHashMap(String key, String value){
         this.hashMap.put(key, value);

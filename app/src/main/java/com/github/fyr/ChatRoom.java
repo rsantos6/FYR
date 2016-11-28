@@ -109,7 +109,7 @@ public class ChatRoom extends AppCompatActivity {
 
 
 
-      //  ListView lv = (ListView) findViewById(R.id.listview_chat);//populate the listview with existing conversation between users
+        //  ListView lv = (ListView) findViewById(R.id.listview_chat);//populate the listview with existing conversation between users
         //lv.setAdapter(new MessageAdapter(this, messageList));
 
 
@@ -138,21 +138,21 @@ public class ChatRoom extends AppCompatActivity {
 
 
     public void Add(View view) {
-            if (!message.getText().toString().equals("")){
-                MessageObject msg = new MessageObject();
-                msg.setName(name);
-                message = (EditText) findViewById(R.id.etMessage);
-                messageText = message.getText().toString();
-                message.setText("");
-                msg.setMessage(messageText);
-                messageList.add(msg);
-                //HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
-                hashMap.put(key, messageList);
-                databaseReference.child("chat").setValue(hashMap);
-                ListView listView = (ListView) findViewById(R.id.listview_chat);
-                listView.setAdapter(new MessageAdapter(this,messageList));
-            }
+        if (!message.getText().toString().equals("")){
+            MessageObject msg = new MessageObject();
+            msg.setName(name);
+            message = (EditText) findViewById(R.id.etMessage);
+            messageText = message.getText().toString();
+            message.setText("");
+            msg.setMessage(messageText);
+            messageList.add(msg);
+            //HashMap<String, ArrayList<MessageObject>> hash = new HashMap<>();
+            hashMap.put(key, messageList);
+            databaseReference.child("chat").setValue(hashMap);
+            ListView listView = (ListView) findViewById(R.id.listview_chat);
+            listView.setAdapter(new MessageAdapter(this,messageList));
         }
+    }
 
 
 

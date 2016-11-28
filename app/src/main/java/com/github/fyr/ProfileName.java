@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProfileName extends AppCompatActivity implements View.OnClickListener{
     public DatabaseReference databaseReference;

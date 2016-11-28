@@ -14,10 +14,10 @@ import java.util.ArrayList;
  */
 
 public class ChatListAdapter extends BaseAdapter {
-    protected ArrayList<String> chatList;
+    protected ArrayList<ListViewObjects> chatList;
     protected LayoutInflater infl;
 
-    public ChatListAdapter(Context context, ArrayList<String> cL){
+    public ChatListAdapter(Context context, ArrayList<ListViewObjects> cL){
         this.chatList = cL;
         this.infl = LayoutInflater.from(context);
     }
@@ -43,15 +43,22 @@ public class ChatListAdapter extends BaseAdapter {
             convertView = infl.inflate(R.layout.chat_list_layout, null);
             holder = new ViewHolder();
             holder.match_name = (TextView) convertView.findViewById(R.id.match_name);
+            holder.email = (TextView) convertView.findViewById(R.id.email);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.match_name.setText(chatList.get(position));;
+        holder.match_name.setText(chatList.get(position).getName());
+        holder.email.setText(chatList.get(position).getEmail());
         return convertView;
     }
 
     static class ViewHolder{
         TextView match_name;
+        TextView email;
+    }
+
+    public ArrayList<ListViewObjects> getChatList(){
+        return this.chatList;
     }
 }

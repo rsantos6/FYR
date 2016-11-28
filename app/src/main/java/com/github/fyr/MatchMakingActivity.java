@@ -129,6 +129,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                     temp.setImage(map.get(key).get("image"));
                     temp.setPace(map.get(key).get("pace"));
                     temp.setTerrain(map.get(key).get("terrain"));
+                    temp.setEmail(map.get(key).get("email"));
                     // Distance isn't in db yet, come back to this
                     list.add(temp);
                 }
