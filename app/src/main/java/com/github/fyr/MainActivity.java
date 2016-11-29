@@ -26,17 +26,21 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         FirebaseDatabase.getInstance();
     }
-
+    /*
+    This method brings the user to the login page
+     */
     public void toLogin(View view){
         Intent intent = new Intent(MainActivity.this, LoginUser.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);//animated transitions between activities
     }
-
+    /*
+    This method brings the user to the register page
+     */
     public void toRegister(View view){
         Intent intent = new Intent(MainActivity.this, RegisterUser.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+        overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);//animated transitions between activities
     }
 
 }

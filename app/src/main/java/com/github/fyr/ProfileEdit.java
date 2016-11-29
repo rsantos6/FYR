@@ -75,6 +75,11 @@ public class ProfileEdit extends AppCompatActivity {
                 });
     }
 
+    /*
+    The following methods listen for a change in the radio button
+    and constantly checks whether the value has changed if the user clicks
+    the button. Then the information on firebase is updated
+     */
     public void setTerrain() {
         // get selected radio button from radioGroup
         this.radioTerrainGroup = (RadioGroup) findViewById(R.id.terrainGroup);

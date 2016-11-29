@@ -33,6 +33,13 @@ public class WhatPace extends AppCompatActivity {
     private RadioButton radioPaceButton;
     public FirebaseAuth firebaseAuth;
 
+    /*
+    This class lets the user select what pace they wish to run
+    on today. They select their choice by clicking a radio button
+    and clicking the next button. Their choice is save in a data
+    object which will eventually be used to match them against
+    another user's proifle.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,13 @@ public class WhatPace extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//gets rid of title bar
         setContentView(R.layout.activity_what_pace);
         this.firebaseAuth = FirebaseAuth.getInstance();
+
+         /*
+        This creates the functionality for the spinner on the top right of pretty much every
+        page. If the user clicks the arrow a menu scrolls down with certain pages the user
+        can access if they click on it. If the user tries to click on a page they're already on
+        a Toast will appear stating that they are already on that page.
+         */
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -81,7 +95,13 @@ public class WhatPace extends AppCompatActivity {
 
 
     }
-
+    /*
+    This method stores the information chosen
+    by the user (depends on what radio button
+    they clicked) and puts it in a data object
+    which is passed on and will eventually be used
+    to find a match
+     */
     public void setPace(View view) {
         // get selected radio button from radioGroup
         this.radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);

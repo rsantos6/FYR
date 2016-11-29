@@ -23,6 +23,14 @@ public class WhatSurface extends AppCompatActivity {
     private RadioButton radioSurfaceButton;
     public FirebaseAuth firebaseAuth;
 
+    /*
+    This class lets the user select what terrain they wish to run
+    on today. They select their choice by clicking a radio button
+    and clicking the next button. Their choice is save in a data
+    object which will eventually be used to match them against
+    another user's proifle.
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,13 @@ public class WhatSurface extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
 
+
+         /*
+        This creates the functionality for the spinner on the top right of pretty much every
+        page. If the user clicks the arrow a menu scrolls down with certain pages the user
+        can access if they click on it. If the user tries to click on a page they're already on
+        a Toast will appear stating that they are already on that page.
+         */
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -74,7 +89,13 @@ public class WhatSurface extends AppCompatActivity {
 
 
     }
-
+    /*
+    This method stores the information chosen
+    by the user (depends on what radio button
+    they clicked) and puts it in a data object
+    which is passed on and will eventually be used
+    to find a match
+     */
     public void setSurface() {
         // get selected radio button from radioGroup
         int selectedId = this.radioSurfaceGroup.getCheckedRadioButtonId();

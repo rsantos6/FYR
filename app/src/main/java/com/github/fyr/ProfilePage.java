@@ -54,6 +54,11 @@ public class ProfilePage extends AppCompatActivity {
         FirebaseUser user = this.firebaseAuth.getCurrentUser();
 
 
+        /*
+        This section of code gets a string representation of the user's
+        profile picture from firebase, converts it to a bitmap and
+        sets the imageview to it
+         */
         this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/image").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -72,7 +77,10 @@ public class ProfilePage extends AppCompatActivity {
         });
 
 
-
+/*
+The next couple of sections set the textviews to the String values for that
+particular stat, stored on firebase
+ */
 
         this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/distance").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -141,6 +149,13 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
+
+        /*
+        This creates the functionality for the spinner on the top right of pretty much every
+        page. If the user clicks the arrow a menu scrolls down with certain pages the user
+        can access if they click on it. If the user tries to click on a page they're already on
+        a Toast will appear stating that they are already on that page.
+         */
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

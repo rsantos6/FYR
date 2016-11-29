@@ -22,6 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfilePace extends AppCompatActivity implements View.OnClickListener{
+    /*
+   This class lets the user make part of their profile by selecting
+   what pace they usually run. This information is stored in
+   a UserProfile object. This information is all stored on
+   firebase for the individual user
+    */
     public RadioGroup radioPaceGroup;
     public RadioButton radioPaceButton;
     public FirebaseAuth firebaseAuth;
@@ -44,6 +50,10 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         String userUid = user.getUid();
+        /*
+        This section of code gets the user's name in order to
+        give them a warm welcome using their name
+         */
         this.databaseReference.child("users").child(user.getEmail().replace(".","") + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -64,7 +74,12 @@ public class ProfilePace extends AppCompatActivity implements View.OnClickListen
 
     }
 
-
+/*
+This method saves the user's newly entered
+ info on firebase with a click of the button.
+ The info is determined by what radio button
+ the user clicked
+ */
     public void setPace() {
         // get selected radio button from radioGroup
         this.radioPaceGroup = (RadioGroup) findViewById(R.id.paceGroup);

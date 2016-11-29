@@ -56,6 +56,12 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
         setSupportActionBar(toolbar);
         this.data = getIntent().getExtras().getParcelable("obj");
 
+        /*
+        This section of code sets the textviews to the values
+        in the data object so the user can review the info
+        they entered before trying to find a match
+         */
+
         TextView tv1 = (TextView) findViewById(R.id.paceText);
         pace = data.getPace();
         tv1.setText("  " + pace);
@@ -66,6 +72,13 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
         dist = data.getDistance();
         tv3.setText("  " + dist);
 
+
+         /*
+        This creates the functionality for the spinner on the top right of pretty much every
+        page. If the user clicks the arrow a menu scrolls down with certain pages the user
+        can access if they click on it. If the user tries to click on a page they're already on
+        a Toast will appear stating that they are already on that page.
+         */
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

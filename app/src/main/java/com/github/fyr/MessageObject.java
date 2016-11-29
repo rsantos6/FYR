@@ -4,6 +4,11 @@ package com.github.fyr;
  * Created by RussBuss on 11/22/2016.
  */
 
+/*
+This class represents an individual message that a person
+sends, containing the actual message and the person's name
+which will both show in the chat
+ */
 public class MessageObject {
     public String message;
     public String name;

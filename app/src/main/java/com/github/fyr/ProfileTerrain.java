@@ -20,6 +20,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileTerrain extends AppCompatActivity implements View.OnClickListener{
 
+     /*
+    This class lets the user make part of their profile by selecting
+    what terrain they usually run on. This information is stored in
+    a UserProfile object. This information is all stored on
+    firebase for the individual user
+     */
+
     public RadioGroup radioTerrainGroup;
     public RadioButton radioTerrainButton;
     public FirebaseAuth firebaseAuth;
@@ -46,7 +53,12 @@ public class ProfileTerrain extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
+    /*
+    This method saves the user's newly entered
+     info on firebase with a click of the button.
+     The info is determined by what radio button
+     the user clicked
+     */
     public void setTerrain() {
         // get selected radio button from radioGroup
         this.radioTerrainGroup = (RadioGroup) findViewById(R.id.terrainGroup);

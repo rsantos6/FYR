@@ -10,6 +10,11 @@ import java.util.HashMap;
 /**
  * Created by RussBuss on 11/5/2016.
  */
+
+/*
+This class is used to store constantly used information
+about a particular user
+ */
 public class UserProfile implements Parcelable {
     public String pace;//this String will only be used for the review page
     public String terrain;//this String will only be used for the review page

@@ -32,8 +32,40 @@ import java.util.Random;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /*
-Basic idea is that the chat is a hash map and the conversations are stored in an arraylist of message objects
-to access this hash map you need a randomly generated key which the user accesses with the name of the other person
+This class is the list of conversations between the user and the
+person that they matched to. The user can click on person and
+go to the conversation.
+
+How the chat was implemented in on our firebase database a hashmap of
+all of the chats are being stored as an arraylist full of message objects
+These message objects contain the senders name and the actual message
+(both in the form of a string). In the hashmap the arraylist is the value
+and the key is a randomly generated key.
+
+The random String key is only generated when the user first matches to
+another person. The random String is placed in a hashmap, also stored
+in the firebase database. Unlike the first hashmap, this hashmap is stored
+in the user's profile and the matched person's profile. The random String is
+the value and the key is the matched person's name (for the matched person's
+hashmap the key is the user's name because for them that is the matched person).
+This way both people are able to access the hashmap that contains the conversation.
+
+The next issue to be solved is now how to get this random key out of the hashmap?
+The name of the matched person has to be stored for both people. Each person has
+another arraylist in their firebase database profile. This arraylist contains a
+ListViewObject of all of their matches. These ListViewObjects contain the matched
+person's name and email. These ListViewObjects are used to populate the list view
+in this class. Then when the user clicks on that person (with the intention of
+going to the chat) the name of that person is pulled out of the textview, then
+plugged into the hashmap to retrieve the previously randomly generated String, and
+finally this string is used to retrieve the arraylist of the message objects from
+the other hashmap. These message objects are used to populate the arraylist in the
+chatroom class.
+
+When a user sends a message, a new messageobject is merely placed in the arraylist which is put
+back into the hashmap and firebase is updated.
+
+
  */
 
 public class ChatList extends AppCompatActivity {
@@ -61,6 +93,13 @@ public class ChatList extends AppCompatActivity {
         this.databaseReference = this.database.getReference();
         this.user = firebaseAuth.getCurrentUser();
 
+
+        /*
+        This creates the functionality for the spinner on the top right of pretty much every
+        page. If the user clicks the arrow a menu scrolls down with certain pages the user
+        can access if they click on it. If the user tries to click on a page they're already on
+        a Toast will appear stating that they are already on that page.
+         */
         Spinner Spinner = (Spinner) findViewById(R.id.spinner);
         Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -100,17 +139,26 @@ public class ChatList extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        // Get the extras (if there are any)
+        // If we are coming from the matchmaking activity
+        //then there will be extras
         Bundle extras = intent.getExtras();
         if (extras != null) {
             if (extras.containsKey("obj")) {
                 UserProfile matched = extras.getParcelable("obj");
+                //create a new listviewobject for this matched person
+                //as we want to add this to the arraylist of
+                //matched people so we can populate the listview
                 ListViewObjects lv = new ListViewObjects();
                 lv.setEmail(matched.getEmail().toLowerCase());
                 this.matchesEmail = matched.getEmail().toLowerCase();
                 lv.setName(matched.getName());
-                this.matches.add(lv);
+                this.matches.add(lv);//insert the matched person into the arraylist
 
+                /*
+                This section of code grabs the current user's name from firebase
+                in order to create a listviewobject to place in the other person's
+                arraylist of matches
+                 */
                 this.databaseReference.child("users").child(this.user.getEmail().replace(".", "") + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -124,12 +172,20 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                /*
+                This section of code updates the other person's matches arraylist
+                 */
+
                 this.databaseReference.child("users").child(matched.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ArrayList<HashMap> match = (ArrayList<HashMap>) dataSnapshot.getValue();//get the arraylist of matches
+                        //firebase stores things as hashmap unfortunately so I have
+                        //to pull out the arraylist from multiple hashmaps
                         ArrayList<ListViewObjects> mlo = new ArrayList<ListViewObjects>();
-                        if (match != null){
+                        //firebase doesn't actually store an arrarylist so
+                        //I have to remake the arraylist
+                        if (match != null){//if there is an existing arraylist of matches
                             for(int i =0; i<match.size();i++) {
                                 HashMap bigHash = match.get(i);
                                 String name = (String) bigHash.get("name");
@@ -151,11 +207,18 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                /*
+                This section of code updates the users match arraylist
+                 */
                 this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         ArrayList<HashMap> match = (ArrayList<HashMap>) dataSnapshot.getValue();//get the arraylist of matches
+                        //firebase stores things as hashmap unfortunately so I have
+                        //to pull out the arraylist from multiple hashmaps
                         ArrayList<ListViewObjects> mlo = new ArrayList<ListViewObjects>();
+                        //firebase doesn't actually store an arrarylist so
+                        //I have to remake the arraylist
                         if (match != null){
                             for(int i =0; i<match.size();i++) {
                                 HashMap bigHash = match.get(i);
@@ -177,8 +240,8 @@ public class ChatList extends AppCompatActivity {
 
                     }
                 });
-
-                char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();//randomly generate a string which will be used as the key
+                //randomly generate a string which will be used as the key
+                char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
                 StringBuilder sb = new StringBuilder();
                 Random random = new Random();
                 for (int i = 0; i < 10; i++) {
@@ -189,7 +252,9 @@ public class ChatList extends AppCompatActivity {
                 this.userHashMap.put(matched.getName(),key);
 
 
-
+                /*
+                This section of code updates the user's hashmap
+                 */
                 this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/hashMap").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -203,6 +268,9 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                /*
+                This section of code updates the other person's hashmap
+                 */
                 this.databaseReference.child("users").child(this.matchesEmail.replace(".", "") + "/hashMap").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -216,6 +284,10 @@ public class ChatList extends AppCompatActivity {
                     }
                 });
 
+                /*
+                Since these people just matched this section of code creates
+                a new hashmap with a new conversation
+                 */
                 this.databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -233,6 +305,15 @@ public class ChatList extends AppCompatActivity {
 
             }
         }else{
+            /*
+            If the user does not access this page after just matching with
+            someone, using the spinner for instance
+             */
+
+            /*
+            This section of code retrieves the user's arraylist of matches in order to populate
+            the listview
+             */
             this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/matches").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -262,6 +343,12 @@ public class ChatList extends AppCompatActivity {
         }
     }
 
+    /*
+    This method sets the other person's hashmap
+    by retrieving their existing hashmap (if it
+    does actually exist) and adding the new value
+    and key.
+     */
     private void setOtherHashContent(HashMap<String, String> hash) {
         HashMap<String, String> temp = new HashMap<String, String>();
         if(hash != null){
@@ -273,6 +360,11 @@ public class ChatList extends AppCompatActivity {
         this.databaseReference.child("users").child(this.matchesEmail.replace(".", "") + "/hashMap").setValue(temp);
     }
 
+    /*
+    This method updates the other person's
+    arraylist of matches by adding a listviewobject
+    of this user's info
+     */
     private void setMatches(ArrayList<ListViewObjects> mlo) {
         ListViewObjects userProfile = new ListViewObjects();
         userProfile.setName(this.nameOfUser);
@@ -285,6 +377,12 @@ public class ChatList extends AppCompatActivity {
         this.nameOfUser = name;
     }
 
+    /*
+    This method creates a new chat by initializing a
+    new arraylist with a welcome messageobject.
+    This is put into the hashmap with the random
+    String key and updated in firebase
+     */
     public void setHash(HashMap<String, ArrayList<MessageObject>> hashing){
         MessageObject ms = new MessageObject();//for testing create a messsage
         ms.setMessage("Welcome to the chat room!");
@@ -301,6 +399,11 @@ public class ChatList extends AppCompatActivity {
         this.databaseReference.child("chat").setValue(temp);
     }
 
+    /*
+    This method updates the user's hashmap
+    retrieving the existing hashmap and
+    adding to it and updating firebase
+     */
     public void setHashContent(HashMap<String,String> hash){
         HashMap<String, String> temp = new HashMap<String, String>();
         if(hash != null){
@@ -309,6 +412,12 @@ public class ChatList extends AppCompatActivity {
         temp.putAll(this.userHashMap);
         this.databaseReference.child("users").child(user.getEmail().replace(".", "") + "/hashMap").setValue(temp);
     }
+
+    /*
+    This method retrieves all existing matches
+    from firebase (complicated by firebase's love
+    of hashmaps) and uses them to populate the list view
+     */
     public void setContent(ArrayList<ListViewObjects>mlo){
         if (!mlo.isEmpty()){
             for(int i=0;i<mlo.size();i++){
@@ -323,6 +432,10 @@ public class ChatList extends AppCompatActivity {
 
     }
 
+    /*
+    This method goes to the chat room, depending on which
+    matched person the user clicked on
+     */
     public void goToConversation(View view){
         TextView textView = (TextView) findViewById(R.id.match_name);//whichever person the user clicks on, get their name
         final String name = textView.getText().toString();
