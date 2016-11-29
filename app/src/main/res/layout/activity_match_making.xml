@@ -5,7 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MatchMakingActivity"
-    android:background="@drawable/background_color">
+    >
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_list_item_array"
+        />
 
 
     <!-- activity view -->
@@ -18,7 +25,8 @@
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="583dp"
-            app:rotation_degrees="15.5" />
+            app:rotation_degrees="15.5"
+            android:background="@drawable/end_matches" />
 
     </FrameLayout>
 

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.HashMap;
@@ -68,6 +70,45 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         setContentView(R.layout.activity_match_making);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Spinner Spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                if (i == 1) {
+                    intent = new Intent(MatchMakingActivity.this, ProfilePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 2) {
+                    intent = new Intent(MatchMakingActivity.this, HomePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i==3){
+                    intent = new Intent(MatchMakingActivity.this, ChatList.class);//This will be the MatchesPage
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+                if (i == 4) {
+                    intent = new Intent(MatchMakingActivity.this, AboutPage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(MatchMakingActivity.this, MainActivity.class));
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(MatchMakingActivity.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Intent intent = getIntent();
         pace = intent.getStringExtra("pace");

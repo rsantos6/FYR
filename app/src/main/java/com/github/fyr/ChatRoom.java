@@ -10,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,6 +65,46 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(R.layout.content_chat_room);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Spinner Spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                if (i == 1) {
+                    intent = new Intent(ChatRoom.this, ProfilePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 2) {
+                    intent = new Intent(ChatRoom.this, HomePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i==3){
+                    intent = new Intent(ChatRoom.this, ChatList.class);//This will be the MatchesPage
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
+                }
+                if (i == 4) {
+                    intent = new Intent(ChatRoom.this, AboutPage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(ChatRoom.this, MainActivity.class));
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(ChatRoom.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {

@@ -13,15 +13,23 @@
     tools:showIn="@layout/activity_chat_room"
     android:background="@drawable/background_color">
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/spinner_list_item_array"
+        />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/listview_chat"
         android:transcriptMode="alwaysScroll"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/relativeLayout" />
+        android:layout_above="@+id/relativeLayout"
+        android:background="@drawable/background_color"
+        android:layout_below="@+id/spinner" />
 
     <RelativeLayout
         android:layout_width="match_parent"

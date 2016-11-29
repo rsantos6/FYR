@@ -9,8 +9,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +60,43 @@ public class ChatList extends AppCompatActivity {
         this.database = FirebaseDatabase.getInstance();
         this.databaseReference = this.database.getReference();
         this.user = firebaseAuth.getCurrentUser();
+
+        Spinner Spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                if (i == 1) {
+                    intent = new Intent(ChatList.this, ProfilePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 2) {
+                    intent = new Intent(ChatList.this, HomePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i==3){
+                    Toast.makeText(ChatList.this, "Already in the Chat Room", Toast.LENGTH_SHORT).show();//if clicks home page and on home
+                }
+                if (i == 4) {
+                    intent = new Intent(ChatList.this, AboutPage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+                if (i == 5) {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(ChatList.this, MainActivity.class));
+                    overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(ChatList.this, "Nothing Selected", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         Intent intent = getIntent();
