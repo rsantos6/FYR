@@ -1,13 +1,17 @@
 package com.github.fyr;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.google.android.gms.plus.PlusOneDummyView.TAG;
 
 /**
  * Created by RussBuss on 11/25/2016.
@@ -44,18 +48,22 @@ public class ChatListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.match_name = (TextView) convertView.findViewById(R.id.match_name);
             holder.email = (TextView) convertView.findViewById(R.id.email);
+            holder.chat = (Button) convertView.findViewById(R.id.chat);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.match_name.setText(chatList.get(position).getName());
         holder.email.setText(chatList.get(position).getEmail());
+
+
         return convertView;
     }
 
     static class ViewHolder{
         TextView match_name;
         TextView email;
+        Button chat;
     }
 
     public ArrayList<ListViewObjects> getChatList(){

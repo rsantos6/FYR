@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -437,13 +438,14 @@ public class ChatList extends AppCompatActivity {
     matched person the user clicked on
      */
     public void goToConversation(View view){
-        TextView textView = (TextView) findViewById(R.id.match_name);//whichever person the user clicks on, get their name
-        final String name = textView.getText().toString();
+        View parentView = (View) view.getParent();
+        TextView textView = (TextView) parentView.findViewById(R.id.match_name);//whichever person the user clicks on, get their name
+        final String nameOfText = textView.getText().toString();
         this.databaseReference.child("users").child(user.getEmail().replace(".", "")).child("hashMap").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, String> hashMap = (HashMap<String, String>) dataSnapshot.getValue();//gets the randomly generated String using the match's name
-                String k = hashMap.get(name);//use this to find the right conversation in the hashmap in firebase, will pull out an arraylist of message objects
+                String k = hashMap.get(nameOfText);//use this to find the right conversation in the hashmap in firebase, will pull out an arraylist of message objects
                 Intent intent = new Intent(ChatList.this, ChatRoom.class).putExtra("obj", k);
                 //as a key to retrieve the randomly generated String which is used to get the arraylist representing the conversation
                 startActivity(intent);
@@ -457,6 +459,5 @@ public class ChatList extends AppCompatActivity {
         });
 
     }
-
 
 }

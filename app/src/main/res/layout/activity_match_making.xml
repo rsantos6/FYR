@@ -7,13 +7,6 @@
     tools:context=".MatchMakingActivity"
     >
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/spinner_list_item_array"
-        />
-
 
     <!-- activity view -->
 
@@ -24,9 +17,16 @@
         <com.github.fyr.SwipeFlingAdapterView
             android:id="@+id/frame"
             android:layout_width="match_parent"
-            android:layout_height="583dp"
+            android:layout_height="604dp"
             app:rotation_degrees="15.5"
             android:background="@drawable/end_matches" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/spinner_list_item_array"
+            />
 
     </FrameLayout>
 
