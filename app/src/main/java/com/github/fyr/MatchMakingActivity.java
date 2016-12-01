@@ -38,6 +38,7 @@ import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -172,17 +173,21 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 // This is a time sucking method that would not scale. If android / firebase had an
                 // ActiveRecord subsitute this method would be unnecesary
                 ArrayList<UserProfile> list = new ArrayList<>();
+                FirebaseUser curr = firebaseAuth.getCurrentUser();
+                String curr_name = curr.getEmail().replace(".","");
 
                 for (String key : map.keySet()) {
-                    UserProfile temp = new UserProfile();
-                    temp.setName(map.get(key).get("name"));
-                    temp.setBio(map.get(key).get("bio"));
-                    temp.setImage(map.get(key).get("image"));
-                    temp.setPace(map.get(key).get("pace"));
-                    temp.setTerrain(map.get(key).get("terrain"));
-                    temp.setEmail(map.get(key).get("email"));
-                    // Distance isn't in db yet, come back to this
-                    list.add(temp);
+                    if(!key.equals(curr_name)) {
+                        UserProfile temp = new UserProfile();
+                        temp.setName(map.get(key).get("name"));
+                        temp.setBio(map.get(key).get("bio"));
+                        temp.setImage(map.get(key).get("image"));
+                        temp.setPace(map.get(key).get("pace"));
+                        temp.setTerrain(map.get(key).get("terrain"));
+                        temp.setEmail(map.get(key).get("email"));
+                        // Distance isn't in db yet, come back to this
+                        list.add(temp);
+                    }
                 }
                 return list;
             }
