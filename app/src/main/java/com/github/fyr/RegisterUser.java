@@ -2,6 +2,7 @@ package com.github.fyr;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +54,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
         this.editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         this.editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextPassword.setTypeface(Typeface.DEFAULT);
+        editTextPassword.setTransformationMethod(new PasswordTransformationMethod());
 
         this.textViewSignin = (TextView) findViewById(R.id.textViewSignin);
 
