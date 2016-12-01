@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import android.view.Menu;
@@ -121,7 +122,16 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         UserProfile test = new UserProfile();
         test.setName("Generating Matches");
         test.setBio(("INSTRUCTIONS: For users who you would like to chat with, swipe right. Swiping left will remove the current user from your potential matches."));
-        test.setImage("");
+
+        Bitmap image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.swipe);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        image.recycle();
+        byte[] byteArray = stream.toByteArray();
+        String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        test.setImage(imageFile);
+
         potentialMatches.add(test);
         //
 
