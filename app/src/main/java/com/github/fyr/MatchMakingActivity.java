@@ -37,6 +37,7 @@ import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -47,12 +48,10 @@ import com.bumptech.glide.Glide;
 
 public class MatchMakingActivity extends AppCompatActivity implements FlingCardListener.ActionDownInterface  {
 
-
     public FirebaseAuth firebaseAuth;
 
     private static final String TAG = "UserList";
     private DatabaseReference userlistReference;
-
     public static MatchCardAdapter cardAdapter;
     public static ViewHolder viewHolder;
     private ArrayList<UserProfile> potentialMatches;
@@ -123,12 +122,8 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         test.setBio(("Swipe to view your matches!"));
         test.setImage("");
         potentialMatches.add(test);
-        //
 
-        userlistReference = FirebaseDatabase.getInstance().getReference();//.child("users");
-        //userlistReference.o
-
-
+        userlistReference = FirebaseDatabase.getInstance().getReference();
 
         userlistReference.child("users").addValueEventListener(new ValueEventListener() {
 
@@ -136,17 +131,15 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, HashMap<String, String>> test = (HashMap<String, HashMap<String, String>>) dataSnapshot.getValue();
-                ArrayList<UserProfile> list = convertMapToList(test);
+
+                ArrayList<UserProfile> list = convertMapToListAndRemoveSelf(test);
                 potentialMatches = list;
 
                 cardAdapter.notifyDataSetChanged();
 
                 filterMatches();
-
-                // ideally rejected Matches would be saved in the db
-                // putting it in the method that would access it.
-                // db is going to save names of those who have been rejected in the
-                // recent past
+                // ideally rejected Matches would be saved in the db putting it in the method that would access it.
+                // db is going to save names of those who have been rejected in the recent past
                 rejectedMatches = new ArrayList<>();
                 cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
                 flingContainer.setAdapter(cardAdapter);
@@ -155,24 +148,26 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Log.w(TAG, "onCancelled: ",databaseError.toException());
-
             }
 
-            public ArrayList<UserProfile> convertMapToList(HashMap<String, HashMap<String, String>> map) {
+            public ArrayList<UserProfile> convertMapToListAndRemoveSelf(HashMap<String, HashMap<String, String>> map) {
                 // This is a time sucking method that would not scale. If android / firebase had an
                 // ActiveRecord subsitute this method would be unnecesary
                 ArrayList<UserProfile> list = new ArrayList<>();
+                String current_user = firebaseAuth.getCurrentUser().getEmail().replace(".", "");
 
                 for (String key : map.keySet()) {
-                    UserProfile temp = new UserProfile();
-                    temp.setName(map.get(key).get("name"));
-                    temp.setBio(map.get(key).get("bio"));
-                    temp.setImage(map.get(key).get("image"));
-                    temp.setPace(map.get(key).get("pace"));
-                    temp.setTerrain(map.get(key).get("terrain"));
-                    temp.setEmail(map.get(key).get("email"));
-                    // Distance isn't in db yet, come back to this
-                    list.add(temp);
+                    if(key != current_user){
+                        UserProfile temp = new UserProfile();
+                        temp.setName(map.get(key).get("name"));
+                        temp.setBio(map.get(key).get("bio"));
+                        temp.setImage(map.get(key).get("image"));
+                        temp.setPace(map.get(key).get("pace"));
+                        temp.setTerrain(map.get(key).get("terrain"));
+                        temp.setEmail(map.get(key).get("email"));
+                        // Distance isn't in db yet, come back to this
+                        list.add(temp);
+                    }
                 }
                 return list;
             }
@@ -194,10 +189,8 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 potentialMatches.remove(0);
                 cardAdapter.notifyDataSetChanged();
                 firstCard = false;
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                //rejectedMatches.add(loser.getName());
+                //Do something on the left! You also have access to the original object.
+                //If you want to use it just cast it (String) dataObject rejectedMatches.add(loser.getName());
             }
 
             @Override
@@ -211,7 +204,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                     overridePendingTransition(R.anim.slide_up_in,R.anim.slide_up_out);
                 }
                 firstCard = false;
-
             }
 
             @Override
@@ -233,9 +225,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-
                 View view = flingContainer.getSelectedView();
-
                 cardAdapter.notifyDataSetChanged();
             }
         });
@@ -308,6 +298,10 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 index++;
             }
         }
+    }
+
+    private void filterPreviousMatches(){
+
     }
 
     protected  void onStart(){
