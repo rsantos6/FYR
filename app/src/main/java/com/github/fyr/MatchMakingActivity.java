@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import android.view.Menu;
@@ -119,9 +120,18 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         this.firebaseAuth = FirebaseAuth.getInstance();
         potentialMatches = new ArrayList<>();
         UserProfile test = new UserProfile();
-        test.setName("Thanks for Using FYR");
-        test.setBio(("Swipe to view your matches!"));
-        test.setImage("");
+        test.setName("Generating Matches");
+        test.setBio(("INSTRUCTIONS: For users who you would like to chat with, swipe right. Swiping left will remove the current user from your potential matches."));
+
+        Bitmap image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.swipe);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        image.recycle();
+        byte[] byteArray = stream.toByteArray();
+        String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        test.setImage(imageFile);
+
         potentialMatches.add(test);
         //
 
@@ -194,10 +204,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 potentialMatches.remove(0);
                 cardAdapter.notifyDataSetChanged();
                 firstCard = false;
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                //rejectedMatches.add(loser.getName());
             }
 
             @Override
@@ -243,8 +249,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
     private void filterMatches() {
         int step = 0;
-        // PROBLEM! users are going to be in a standard order, need to randomize it
-        // but what is an efficient way to do that...
         while(potentialMatches.size() > 15 && step != 4){
             switch(step){
                 case 0: filterLocation();

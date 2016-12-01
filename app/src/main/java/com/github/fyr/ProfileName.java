@@ -70,6 +70,9 @@ public class ProfileName extends AppCompatActivity implements View.OnClickListen
         Intent intent = new Intent(ProfileName.this, ProfilePace.class).putExtra("obj", user);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+        //Firebase userRef = ref.child("users").child("alanisawesome");
+
     }
 
     public void editProfilePicture(View view) {
@@ -89,6 +92,8 @@ public class ProfileName extends AppCompatActivity implements View.OnClickListen
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
+
+
                 Bitmap bitmap =  MediaStore.Images.Media.getBitmap(getContentResolver(), uri);//your image
                 ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
@@ -96,6 +101,9 @@ public class ProfileName extends AppCompatActivity implements View.OnClickListen
                 byte[] byteArray = bYtE.toByteArray();
                 String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
                 this.user.setImage(imageFile);
+
+
+                // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.profilePicture);
                 //imageView.setImageBitmap(bitmap);
