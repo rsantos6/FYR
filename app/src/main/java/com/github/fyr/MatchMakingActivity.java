@@ -134,13 +134,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         test.setImage(imageFile);
 
         potentialMatches.add(test);
-        //
-
         userlistReference = FirebaseDatabase.getInstance().getReference();//.child("users");
-        //userlistReference.o
-
-
-
         userlistReference.child("users").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -153,12 +147,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 cardAdapter.notifyDataSetChanged();
 
                 filterMatches();
-
-                // ideally rejected Matches would be saved in the db
-                // putting it in the method that would access it.
-                // db is going to save names of those who have been rejected in the
-                // recent past
-                rejectedMatches = new ArrayList<>();
                 cardAdapter = new MatchCardAdapter(potentialMatches, MatchMakingActivity.this);
                 flingContainer.setAdapter(cardAdapter);
             }
@@ -269,70 +257,70 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         }
     }
 
-     private void filterDistance(ArrayList<UserProfile> newMatches){
+    private void filterDistance(){
         int index = 0;
         ArrayList<Integer> toRemove = new ArrayList<>();
-        for(UserProfile u : newMatches){
-        // Part One - find users to remove, using an iterator so you can't remove in the loop 
-                if(u.getDistance() != dist){
-                    toRemove.add(index);
-                }
-                index++;
+        for(UserProfile u : potentialMatches){
+            // Part One - find users to remove, using an iterator so you can't remove in the loop
+            if(u.getDistance() != dist){
+                toRemove.add(index);
             }
-        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+            index++;
+        }
+        // Part Two - remove them. Each removal moves the index back one, offset handles that
         int offSet = 0;
         for(Integer i : toRemove) {
-            newMatches.remove(i - offSet);
+            potentialMatches.remove(i - offSet);
             offSet++;
         }
     }
 
-    private void filterTerrain(ArrayList<UserProfile> newMatches){
+    private void filterTerrain(){
         int index = 0;
         ArrayList<Integer> toRemove = new ArrayList<>();
-        // Part One - find users to remove, using an iterator so you can't remove in the loop 
-        for(UserProfile u : newMatches){
+        // Part One - find users to remove, using an iterator so you can't remove in the loop
+        for(UserProfile u : potentialMatches){
             if(u.getTerrain() != terrain){
                 toRemove.add(index);
             }
             index++;
         }
-        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+        // Part Two - remove them. Each removal moves the index back one, offset handles that
         int offSet = 0;
         for(Integer i : toRemove) {
-            newMatches.remove(i - offSet);
+            potentialMatches.remove(i - offSet);
             offSet++;
         }
     }
 
-    private void filterPace(ArrayList<UserProfile> newMatches){
+    private void filterPace(){
         int index = 0;
-        // Part One - find users to remove, using an iterator so you can't remove in the loop 
+        // Part One - find users to remove, using an iterator so you can't remove in the loop
         ArrayList<Integer> toRemove = new ArrayList<>();
-        for(UserProfile u : newMatches){
+        for(UserProfile u : potentialMatches){
             if(u.getPace() != pace){
                 toRemove.add(index);
             }
             index++;
         }
-        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+        // Part Two - remove them. Each removal moves the index back one, offset handles that
         int offSet = 0;
         for(Integer i : toRemove) {
-            newMatches.remove(i - offSet);
+            potentialMatches.remove(i - offSet);
             offSet++;
         }
     }
 
-    private void filterLocation(ArrayList<UserProfile> newMatches){
+    private void filterLocation(){
         /**int index = 0;
-        while(potentialMatches.size() > 15){
-            for(UserProfile u : potentialMatches){
-                if(u.getDistance() != dist){
-                    potentialMatches.remove(index);
-                }
-                index++;
-            }
-        }**/
+         while(potentialMatches.size() > 15){
+         for(UserProfile u : potentialMatches){
+         if(u.getDistance() != dist){
+         potentialMatches.remove(index);
+         }
+         index++;
+         }
+         }**/
     }
 
     protected  void onStart(){
@@ -342,14 +330,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
     @Override
     public void onStop() {
         super.onStop();
-
-        // add the rejected list to the User's database
-        // do we want to add the full list or just the ID's?
-        // yes! because then you don't have to convert the
-        // array list from a HashMap to a user list when
-        // you pull it from the db.
-
-        // Remove post value event listener
         if (mUserListListener != null) {
             userlistReference.removeEventListener(mUserListListener);
         }
@@ -364,15 +344,6 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /**switch(item.getItemId()) {
-         case R.id.action_logout:
-         FirebaseAuth.getInstance().signOut();
-         startActivity(new Intent(this, MainActivity.class));
-         finish();
-         return true;
-         default:
-         return super.onOptionsItemSelected(item);
-         }**/
         return false;
     }
 
