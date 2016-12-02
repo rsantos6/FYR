@@ -40,11 +40,21 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
     private String terrain;
     private String dist;
 
+    private String curr_user_name;
+
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected String gpsText;
     protected Location gps;
+    protected String defaultGPS;
+
+    public DatabaseReference databaseReference;
     protected boolean gps_enabled, network_enabled;
+
+    /** This class finds the information that a user wants to determine their new matches on any given day.
+     *  Additionally, this finds the user's current location or their default location in order to enable
+     *  geoQueries in MatchMakingActivity
+     **/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,11 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
         in the data object so the user can review the info
         they entered before trying to find a match
          */
+
+        // a user's info is stored with a user's email without any periods.
+        curr_user_name = firebaseAuth.getCurrentUser().getEmail().replace(".", "");
+        gpsText = "not set yet";
+        defaultGPS = "[37.42, -120.08]"; // Brandeis Library
 
         TextView tv1 = (TextView) findViewById(R.id.paceText);
         pace = data.getPace();
@@ -167,23 +182,19 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
             return;
         }
         locationManager.requestLocationUpdates("gps", 50, 0, locationListener);
-        System.out.println("\n LOOK HERE \n" + gpsText);
-        FirebaseUser curr = firebaseAuth.getCurrentUser();
-        System.out.println(curr.getEmail());
 
         Intent intent = new Intent(ReviewRun.this, MatchMakingActivity.class);
         intent.putExtra("pace", pace);
         intent.putExtra("terrain", terrain);
         intent.putExtra("dist", dist);
 
-        if(gpsText != null){
+        // Either store the gpsText that was found onLocationChange or add the default location
+        if(!gpsText.equals("not set yet")){
             intent.putExtra("gpsText", gpsText);
         }else{
-            // add a default
-            // change this to Brandeis in the future, or call a user's last known location
-            intent.putExtra("gpsText", 37.421998333333335 -122.08400000000002);
+            String deft = getDefaultLocation();
+            intent.putExtra("gpsText", deft);
         }
-        // Need to put GPS info
 
         startActivity(intent);
     }
@@ -196,10 +207,11 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // locationManager.requestLocationUpdates("gps", 50, 0, locationListener);;
                     if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // this is a joke
+                    // Android studio says this is needed to check permissions even though it is inside the
+                        // method that delt with them. Couldn't figure out this quirk
                         return;
                     }
-                    locationManager.requestLocationUpdates("gps", 50, 0, locationListener);
+                    locationManager.requestLocationUpdates("gps", 0, 0, locationListener);
                 }
         }
     }
@@ -210,53 +222,52 @@ public class ReviewRun extends AppCompatActivity implements LocationListener {
         // Need to save a location as a default in the db and access that when needed
         gpsText = location.getLatitude() + " " + location.getLongitude();
         gps = location;
-        addLocationToGeoFire(location);
+        addLocationToGeoFire(location, 0);
     }
 
-    private void addLocationToGeoFire(Location location){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
+    private void addLocationToGeoFire(Location location, int message){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        this.databaseReference = database.getReference();
+
+        // Data for Geo Search is stored in the GeoFire map with the user's email as the key
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geofire");
         GeoFire geoFire = new GeoFire(ref);
-        FirebaseUser curr = firebaseAuth.getCurrentUser();
-        geoFire.setLocation(curr.getEmail(), new GeoLocation(location.getLatitude(), location.getLongitude()));
+
+        // message = 0 means a method was able to find the locaiton
+        if(message == 0){
+            // add location to the firebase database
+            geoFire.setLocation(curr_user_name, new GeoLocation(location.getLatitude(), location.getLongitude()));
+            databaseReference.child("users").child(curr_user_name +"/location").setValue(location.toString());
+        }else{
+            // Add Default location of the Brandeis Library, the main hot spot for young runners of Brandeis
+            geoFire.setLocation(curr_user_name, new GeoLocation(37.421998333333335, -120.084000000000002));
+            databaseReference.child("users").child(curr_user_name+"/location").setValue(defaultGPS);
+            gpsText = defaultGPS;
+        }
     }
 
-    private void checkLocation(){
-        if(gps == null){
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("path/to/geofire");
-            GeoFire geoFire = new GeoFire(ref);
-            FirebaseUser curr = firebaseAuth.getCurrentUser();
-            geoFire.getLocation(curr.getEmail(), new LocationCallback() {
-                @Override
-                public void onLocationResult(String key, GeoLocation location) {
-                    if (location != null) {
-                        //gps = new Location(location.latitude, location.longitude);
-
-                        System.out.println(String.format("The location for key %s is [%f,%f]", key, location.latitude, location.longitude));
-                    } else {
-                        System.out.println(String.format("There is no location for key %s in GeoFire", key));
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.err.println("There was an error getting the GeoFire location: " + databaseError);
-                }
-            });
-        }
+    public String getDefaultLocation() {
+        ///
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        this.databaseReference = database.getReference();
+        Location l = new Location("");
+        addLocationToGeoFire(l, 1);
+        return defaultGPS;
     }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-        // meh
+        // not used but required to have
     }
 
     @Override
     public void onProviderEnabled(String s) {
-        // meh
+        // not used by required
     }
 
     @Override
     public void onProviderDisabled(String s) {
+        // Method that will get permissions to use a user's gps location if needed
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivity(intent);
     }
