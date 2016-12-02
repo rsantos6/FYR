@@ -269,46 +269,62 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
         }
     }
 
-    private void filterDistance(){
-        /**
-         * Commenting out until dist actually saves correctly
-         int index = 0;
-         while(potentialMatches.size() > 15){
-         for(UserProfile u : potentialMatches){
-         if(u.getDistance() != dist){
-         potentialMatches.remove(index);
-         }
-         index++;
-         }
-         }**/
-    }
-
-    private void filterTerrain(){
+     private void filterDistance(ArrayList<UserProfile> newMatches){
         int index = 0;
-        while(potentialMatches.size() > 15){
-            for(UserProfile u : potentialMatches){
-                if(u.getTerrain() != terrain){
-                    potentialMatches.remove(index);
+        ArrayList<Integer> toRemove = new ArrayList<>();
+        for(UserProfile u : newMatches){
+        // Part One - find users to remove, using an iterator so you can't remove in the loop 
+                if(u.getDistance() != dist){
+                    toRemove.add(index);
                 }
                 index++;
             }
+        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+        int offSet = 0;
+        for(Integer i : toRemove) {
+            newMatches.remove(i - offSet);
+            offSet++;
         }
     }
 
-    private void filterPace(){
+    private void filterTerrain(ArrayList<UserProfile> newMatches){
         int index = 0;
-        while(potentialMatches.size() > 15){
-            for(UserProfile u : potentialMatches){
-                if(u.getPace() != pace){
-                    potentialMatches.remove(index);
-                }
-                index++;
+        ArrayList<Integer> toRemove = new ArrayList<>();
+        // Part One - find users to remove, using an iterator so you can't remove in the loop 
+        for(UserProfile u : newMatches){
+            if(u.getTerrain() != terrain){
+                toRemove.add(index);
             }
+            index++;
+        }
+        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+        int offSet = 0;
+        for(Integer i : toRemove) {
+            newMatches.remove(i - offSet);
+            offSet++;
         }
     }
 
-    private void filterLocation(){
+    private void filterPace(ArrayList<UserProfile> newMatches){
         int index = 0;
+        // Part One - find users to remove, using an iterator so you can't remove in the loop 
+        ArrayList<Integer> toRemove = new ArrayList<>();
+        for(UserProfile u : newMatches){
+            if(u.getPace() != pace){
+                toRemove.add(index);
+            }
+            index++;
+        }
+        // Part Two - remove them. Each removal moves the index back one, offset handles that 
+        int offSet = 0;
+        for(Integer i : toRemove) {
+            newMatches.remove(i - offSet);
+            offSet++;
+        }
+    }
+
+    private void filterLocation(ArrayList<UserProfile> newMatches){
+        /**int index = 0;
         while(potentialMatches.size() > 15){
             for(UserProfile u : potentialMatches){
                 if(u.getDistance() != dist){
@@ -316,7 +332,7 @@ public class MatchMakingActivity extends AppCompatActivity implements FlingCardL
                 }
                 index++;
             }
-        }
+        }**/
     }
 
     protected  void onStart(){
